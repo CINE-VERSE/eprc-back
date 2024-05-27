@@ -27,6 +27,82 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
+
+      - name: Create application.yml.template
+        run: |
+          mkdir -p src/main/resources
+          cat > src/main/resources/application.yml.template <<EOL
+          server:
+            port: 7775
+          
+          spring:
+            datasource:
+              driver-class-name: org.mariadb.jdbc.Driver
+              url: jdbc:mariadb://\${RDS_HOSTNAME}:\${RDS_PORT}/\${RDS_DB_NAME}
+              username: \${RDS_USERNAME}
+              password: \${RDS_PASSWORD}
+          
+            servlet:
+              multipart:
+                max-file-size: 10MB
+                max-request-size: 10MB
+                enabled: true
+            security:
+              user:
+                name: \${SEC_NAME}
+                password: \${SEC_PASSWORD}
+            mail:
+              host: \${MAIL_HOST}
+              port: \${MAIL_PORT}
+              username: \${MAIL_USERNAME}
+              password: \${MAIL_PASSWORD}
+              properties:
+                mail.smtp.ssl.trust: \${MAIL_HOST}
+                mail.smtp.auth: true
+                mail.smtp.ssl.enable: true
+          cloud:
+            aws:
+              credentials:
+                access-key: \${S3_ACCESS_KEY}
+                secret-key: \${S3_SECRET_KEY}
+              region:
+                static: ap-northeast-2
+              stack:
+                auto: false
+          
+            jpa:
+              show-sql: true
+              database: mysql
+              properties:
+                hibernate:
+                  '[format_sql]': true
+          
+          token:
+            expiration_time: \${TK_TIME}
+            secret: \${TK_KEY}
+
+          EOL
+
+      - name: Set Yaml
+        run: |
+          envsubst < src/main/resources/application.yml.template > src/main/resources/application.yml
+          echo "Generated application.yml:"
+          cat src/main/resources/application.yml
+        env:
+          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
+          RDS_PORT: ${{ secrets.RDS_PORT }}
+          RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
+          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
+          SEC_NAME: ${{ secrets.SEC_NAME }}
+          SEC_PASSWORD: ${{ secrets.SEC_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_USERNAME }}
+          MAIL_USERNAME: ${{ secrets.MAIL_PORT }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          TK_TIME: ${{ TK_TIME }}
+          TK_KEY: ${{ TK_KEY }}
+
       - name: Build with Gradle
         run: ./gradlew clean build
         shell: bash
