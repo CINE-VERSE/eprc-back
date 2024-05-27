@@ -15,5 +15,5 @@ public class ContractProductDTO {
     private int contractProductCount;
     private long contractSupplyPrice;
     private Product product;
-    private int contractId;
+//    private int contractId;
 }
