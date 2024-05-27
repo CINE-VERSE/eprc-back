@@ -22,4 +22,6 @@ public class ErpcApplication {
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+//	github action workflow test 
 }
