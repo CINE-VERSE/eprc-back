@@ -32,7 +32,7 @@ jobs:
           mkdir -p src/main/resources
           cat > src/main/resources/application.yml.template <<EOL
           server:
-            port: 7775
+            port: 5000
           
           spring:
             datasource:
