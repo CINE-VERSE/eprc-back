@@ -31,6 +31,12 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
+      - name: Set YML
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          find src
+
       - name: Build with Gradle
         run: ./gradlew clean build
         shell: bash
@@ -41,12 +47,6 @@ jobs:
         with:
           format: YYYY-MM-DDTHH-mm-ss
           utcOffset: "+09:00"
-
-      - name: Set YML
-        run: |
-          mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
-          find src
 
       - name: Show Current Time
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
