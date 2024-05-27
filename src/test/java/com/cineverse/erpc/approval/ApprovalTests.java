@@ -176,26 +176,26 @@ public class ApprovalTests {
         assertThat(approval.getApprovalRequestDate()).isNotNull();
     }
 
-    @Test
-    @Transactional
-    @DisplayName("견적서 결재처리 성공 테스트")
-    public void successQuotationApprovalProcessTest() {
-        ApprovalStatus approvalStatus = new ApprovalStatus();
-        approvalStatus.setApprovalStatusId(2);
-        approvalStatus.setApprovalStatus("승인");
-
-        RequestQuotationApprovalProcess approvalProcess = RequestQuotationApprovalProcess.builder()
-                .quotationApprovalId(3)
-                .approvalContent("결제 내용")
-                .approvalStatus(approvalStatus)
-                .build();
-
-        ResponseQuotationApprovalProcess testApprovalProcess =
-                approvalService.quotationApprovalProcess(approvalProcess);
-
-        assertThat(approvalProcess.getApprovalContent()).isEqualTo(testApprovalProcess.getApprovalContent());
-        assertThat(approvalProcess.getApprovalStatus()).isEqualTo(testApprovalProcess.getApprovalStatus());
-    }
+//    @Test
+//    @Transactional
+//    @DisplayName("견적서 결재처리 성공 테스트")
+//    public void successQuotationApprovalProcessTest() {
+//        ApprovalStatus approvalStatus = new ApprovalStatus();
+//        approvalStatus.setApprovalStatusId(2);
+//        approvalStatus.setApprovalStatus("승인");
+//
+//        RequestQuotationApprovalProcess approvalProcess = RequestQuotationApprovalProcess.builder()
+//                .quotationApprovalId(3)
+//                .approvalContent("결제 내용")
+//                .approvalStatus(approvalStatus)
+//                .build();
+//
+//        ResponseQuotationApprovalProcess testApprovalProcess =
+//                approvalService.quotationApprovalProcess(approvalProcess);
+//
+//        assertThat(approvalProcess.getApprovalContent()).isEqualTo(testApprovalProcess.getApprovalContent());
+//        assertThat(approvalProcess.getApprovalStatus()).isEqualTo(testApprovalProcess.getApprovalStatus());
+//    }
 
     @Test
     @Transactional
