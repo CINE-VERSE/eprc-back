@@ -96,8 +96,8 @@ jobs:
           SEC_NAME: ${{ secrets.SEC_NAME }}
           SEC_PASSWORD: ${{ secrets.SEC_PASSWORD }}
           MAIL_HOST: ${{ secrets.MAIL_HOST }}
-          MAIL_PORT: ${{ secrets.MAIL_USERNAME }}
-          MAIL_USERNAME: ${{ secrets.MAIL_PORT }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME  }}
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
           TOKEN_TIME: ${{ secrets.TOKEN_TIME }}
