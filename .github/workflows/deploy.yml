@@ -78,8 +78,8 @@ jobs:
                   '[format_sql]': true
           
           token:
-            expiration_time: \${TK_TIME}
-            secret: \${TK_KEY}
+            expiration_time: \${TOKEN_TIME}
+            secret: \${TOKEN_KEY}
 
           EOL
 
@@ -100,8 +100,8 @@ jobs:
           MAIL_USERNAME: ${{ secrets.MAIL_PORT }}
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-          TK_TIME: ${{ TK_TIME }}
-          TK_KEY: ${{ TK_KEY }}
+          TOKEN_TIME: ${{ TOKEN_TIME }}
+          TOKEN_KEY: ${{ TOKEN_KEY }}
 
       - name: Build with Gradle
         run: ./gradlew clean build
