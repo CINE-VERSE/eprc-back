@@ -6,7 +6,7 @@ permissions:
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main", "develop", "githubaction"]
   pull_request:
     types: [ opened, reopened, synchronize ]
 
@@ -79,6 +79,12 @@ jobs:
           token:
             expiration_time: \${TOKEN_TIME}
             secret: \${TOKEN_KEY}
+          
+          management:
+            endpoints:
+              web:
+                exposure:
+                  include: health, info, prometheus
           EOL
 
       - name: Set Yaml
