@@ -6,9 +6,9 @@ permissions:
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main", "develop", "githubaction"]
   pull_request:
-    types: [ opened, reopened, synchronize ]
+    types: [opened, reopened, synchronize]
 
 jobs:
   build:
@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: List files for debugging
+        run: ls -al
+        shell: bash
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -79,6 +83,12 @@ jobs:
           token:
             expiration_time: \${TOKEN_TIME}
             secret: \${TOKEN_KEY}
+          
+          management:
+            endpoints:
+              web:
+                exposure:
+                  include: health, info, prometheus
           EOL
 
       - name: Set Yaml
@@ -102,6 +112,7 @@ jobs:
           TOKEN_TIME: ${{ secrets.TOKEN_TIME }}
           TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
 
+
       - name: Build with Gradle
         run: ./gradlew clean build
         shell: bash
@@ -124,19 +135,23 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy
+
           cp build/libs/erpc-0.0.1-SNAPSHOT.jar deploy/application.jar
           cp Procfile deploy/Procfile
           cp -r .ebextensions deploy/.ebextensions
           cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
 
+
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v22
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
           application_name: erpc-backend
           environment_name: Erpc-backend-env
+          
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
