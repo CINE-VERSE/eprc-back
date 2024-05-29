@@ -171,7 +171,7 @@ public class QuotationServiceImpl implements QuotationService{
 
     @Override
     public List<QuotationDTO> findAllQuotations() {
-        List<Quotation> quotations = quotationRepository.findAll();
+        List<Quotation> quotations = quotationRepository.findAllByOrderByQuotationIdDesc();
 
         return quotations.stream().map(quotation -> mapper
                 .map(quotation, QuotationDTO.class))

@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<ResponseOrderLists> findAllOrders() {
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findAllByOrderByOrderRegistrationId();
 
         return orders.stream().map(order -> mapper
                 .map(order, ResponseOrderLists.class))

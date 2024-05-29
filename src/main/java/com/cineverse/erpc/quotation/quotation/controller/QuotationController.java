@@ -56,9 +56,7 @@ public class QuotationController {
 
     @GetMapping()
     public List<QuotationDTO> findAllQuotations() {
-        List<QuotationDTO> quotations = quotationService.findAllQuotations();
-
-        return quotations;
+        return quotationService.findAllQuotations();
     }
 
     @PatchMapping(path = "/modify", consumes = {"multipart/form-data;charset=UTF-8"})
