@@ -33,9 +33,6 @@ public class NoticeFile {
     @Column(name = "upload_date")
     private String uploadDate;
 
-    @Column(name = "upload_user")
-    private String uploadUser;
-
     @ManyToOne
     @JoinColumn(name = "notice_id")
     @JsonIgnore
