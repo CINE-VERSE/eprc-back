@@ -101,6 +101,8 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         String deleteDate = format.format(date);
         noticeBoard.setNoticeDeleteDate(deleteDate);
 
+        noticeBoardRepository.save(noticeBoard);
+
         return noticeBoard;
     }
 

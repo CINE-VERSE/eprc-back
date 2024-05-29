@@ -32,9 +32,6 @@ public class TaxInvoiceFile {
     @Column(name = "upload_date")
     private String uploadDate;
 
-    @Column(name = "upload_user")
-    private String uploadUser;
-
     @ManyToOne
     @JoinColumn(name = "tax_invoice_request_id")
     @JsonIgnore
