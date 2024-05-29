@@ -56,7 +56,6 @@ public class FileUploadService {
             String accessUrl = amazonS3Client.getUrl(bucketName, storedName).toString();
             noticeFile.setAccessUrl(accessUrl);
             noticeFile.setUploadDate(notice.getNoticeDate());
-            noticeFile.setUploadUser(notice.getEmployee().getEmployeeCode());
 
             noticeFileRepository.save(noticeFile);
 
@@ -89,7 +88,6 @@ public class FileUploadService {
 
             quotationFile.setAccessUrl(accessUrl);
             quotationFile.setUploadDate(quotation.getQuotationDate());
-            quotationFile.setUploadUser(quotation.getEmployee().getEmployeeCode());
             quotationFileRepository.save(quotationFile);
 
         } catch (IOException e) {
@@ -121,7 +119,6 @@ public class FileUploadService {
 
             contractFile.setAccessUrl(accessUrl);
             contractFile.setUploadDate(contract.getContractDate());
-            contractFile.setUploadUser(contract.getEmployee().getEmployeeCode());
             contractFileRepository.save(contractFile);
 
         } catch (IOException e) {
@@ -153,7 +150,6 @@ public class FileUploadService {
 
             orderFile.setAccessUrl(accessUrl);
             orderFile.setUploadDate(order.getOrderDate());
-            orderFile.setUploadUser(order.getEmployee().getEmployeeCode());
             orderFileRepository.save(orderFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -183,7 +179,6 @@ public class FileUploadService {
             String accessUrl = amazonS3Client.getUrl(bucketName, storedName).toString();
             taxFile.setAccessUrl(accessUrl);
             taxFile.setUploadDate(taxInvoice.getTaxInvoiceRequestDate());
-            taxFile.setUploadUser(taxInvoice.getEmployee().getEmployeeCode());
 
             taxInvoiceFileRepository.save(taxFile);
 

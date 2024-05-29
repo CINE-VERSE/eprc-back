@@ -33,9 +33,6 @@ public class QuotationFile {
     @Column(name = "upload_date")
     private String uploadDate;
 
-    @Column(name = "upload_user")
-    private String uploadUser;
-
     @ManyToOne
     @JoinColumn(name = "quotation_id")
     @JsonIgnore
