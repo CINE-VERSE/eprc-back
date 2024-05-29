@@ -26,6 +26,9 @@ public class RequestRegistOrderDTO {
     private String orderDueDate;
     private String orderNote;
     private long totalBalance;
+    private long downPayment;
+    private long progressPayment;
+    private long balance;
     private Account account;
     private Employee employee;
     private Transaction transaction;
