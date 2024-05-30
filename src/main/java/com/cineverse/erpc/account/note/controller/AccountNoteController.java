@@ -61,13 +61,13 @@ public class AccountNoteController {
         return accountNotes;
     }
 
-    @PatchMapping("/delete/{accountNoteId}")
+    @PatchMapping("/delete")
     @Operation(summary = "거래처 참고사항 삭제", description = "거래처 참고사항을 삭제합니다")
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseDeleteAccountNote deleteAccountNote(
             @Parameter(required = true, description = "거래처 참고사항 고유번호")
-            @PathVariable long accountNoteId) {
+            @RequestParam long accountNoteId) {
 
         return accountNoteService.deleteAccountNote(accountNoteId);
     }

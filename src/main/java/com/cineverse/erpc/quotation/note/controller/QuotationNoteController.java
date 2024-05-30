@@ -60,9 +60,13 @@ public class QuotationNoteController {
         return quotationNotes;
     }
 
-    @PatchMapping("/delete/{quotationNoteId}")
-
-    public ResponseEntity<ResponseDeleteQuotationNote> deleteQuotationNote(@PathVariable long quotationNoteId) {
+    @PatchMapping("/delete")
+    @Operation(summary = "견적서 참고사항 삭제", description = "견적서 참고사항을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public ResponseEntity<ResponseDeleteQuotationNote> deleteQuotationNote(
+            @Parameter(required = true, description = "견적서 참고사항 고유번호")
+            @RequestParam long quotationNoteId) {
 
         ResponseDeleteQuotationNote responseDeleteQuotationNote =
                 quotationNoteService.deleteQuotationNote(quotationNoteId);

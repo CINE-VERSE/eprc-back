@@ -59,13 +59,13 @@ public class OrderNoteController {
         return orderNoteService.findNotesByOrderId(orderId);
     }
 
-    @PatchMapping("/delete/{orderNoteId}")
+    @PatchMapping("/delete")
     @Operation(summary = "수주 참고사항 삭제", description = "수주 참고사항을 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseDeleteOrderNote deleteOrderNote(
             @Parameter(required = true, description = "수주 참고사항 고유번호")
-            @PathVariable long orderNoteId) {
+            @RequestParam long orderNoteId) {
         return orderNoteService.deleteOrderNote(orderNoteId);
     }
 }
