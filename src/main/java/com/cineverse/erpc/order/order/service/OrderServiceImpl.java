@@ -85,11 +85,6 @@ public class OrderServiceImpl implements OrderService {
         Transaction transaction = transactionRepository.findById(order.getTransaction().getTransactionId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 거래코드 입니다."));
 
-        Shipment shipment = new Shipment();
-        shipment.setOrderDueDate(order.getOrderDueDate());
-        shipment.setTransactionCode(transaction.getTransactionCode());
-        shipment.setShipmentStatus(shipmentStatus);
-        shipmentRepository.save(shipment);
 
 
         for (OrderProduct product : requestOrder.getOrderProduct()) {
@@ -101,6 +96,12 @@ public class OrderServiceImpl implements OrderService {
                 String url = fileUploadService.saveOrderFile(file, order);
             }
         }
+
+        Shipment shipment = new Shipment();
+        shipment.setOrderDueDate(order.getOrderDueDate());
+        shipment.setTransactionCode(transaction.getTransactionCode());
+        shipment.setShipmentStatus(shipmentStatus);
+        shipmentRepository.save(shipment);
 
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return mapper.map(order, ResponseRegistOrderDTO.class);
