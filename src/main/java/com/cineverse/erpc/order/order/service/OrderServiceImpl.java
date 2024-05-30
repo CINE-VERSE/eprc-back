@@ -78,9 +78,7 @@ public class OrderServiceImpl implements OrderService {
             order.setTotalBalance(totalPrice);
         }
 
-        if (requestOrder.getDownPayment() != 0 || requestOrder.getBalance() != 0) {
             order.setTotalBalance(order.getOrderTotalPrice());
-        }
 
         orderRepository.save(order);
 
