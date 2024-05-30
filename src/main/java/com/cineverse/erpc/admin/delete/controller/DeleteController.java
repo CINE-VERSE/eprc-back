@@ -19,8 +19,10 @@ import com.cineverse.erpc.order.order.dto.ResponseDeleteOrder;
 import com.cineverse.erpc.salesopp.opportunity.aggregate.SalesOppDeleteRequest;
 import com.cineverse.erpc.salesopp.opportunity.dto.SalesOppDeleteRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -52,14 +54,19 @@ public class DeleteController {
 
     /* 영업기회 삭제 요청 단일조회 */
     @GetMapping("/sales_opp/{salesOppDeleteRequestId}")
-    public SalesOppDeleteRequestDTO findOppDeleteRequest(@PathVariable long salesOppDeleteRequestId) {
+    @Operation(summary = "영업기회 삭제요청 단일조회", description = "영업기회 삭제요청을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public SalesOppDeleteRequestDTO findOppDeleteRequest(
+            @Parameter(required = true, description = "영업기회 삭제요청 고유번호")
+            @PathVariable long salesOppDeleteRequestId) {
         SalesOppDeleteRequestDTO oppDeleteRequest = deleteService.findSalesOppDeleteRequestById(salesOppDeleteRequestId);
 
         return oppDeleteRequest;
     }
 
     /* 영업기회 삭제 요청처리 */
-    @PatchMapping("/sales_opp/status/{salesOppDeleteRequestId}")
+    @PatchMapping("/sales_opp/permission/{salesOppDeleteRequestId}")
     public ResponseEntity<SalesOppDeleteRequest> deleteSalesOpp(@RequestBody SalesOppDeleteRequestDTO deleteOppDTO,
                                                                 @PathVariable long salesOppDeleteRequestId) {
         SalesOppDeleteRequest updatedOppRequest =
@@ -85,7 +92,7 @@ public class DeleteController {
     }
 
     /* 계약서 삭제 요청 처리 */
-    @PatchMapping("/contract/status/{contractDeleteRequestId}")
+    @PatchMapping("/contract/permission/{contractDeleteRequestId}")
     public ResponseEntity<ContractDeleteRequest> deleteContract(@RequestBody ContractDeleteRequestDTO deleteContractDTO,
                                                                 @PathVariable long contractDeleteRequestId) {
         ContractDeleteRequest updatedContractRequest =
@@ -95,12 +102,19 @@ public class DeleteController {
     }
 
     @GetMapping("/quotation")
+    @Operation(summary = "견적서 삭제요청 전체조회", description = "견적서 삭제요청을 전부 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public List<ResponseQuotationDeleteRequestList> findQuotationDeleteRequestList() {
         return deleteService.findQuotationDeleteRequestList();
     }
 
     @GetMapping("/quotation/{quotationDeleteRequestId}")
+    @Operation(summary = "견적서 삭제요청 단일조회", description = "견적서 삭제요청을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseFindQuotationDeleteRequest> findQuotationDeleteRequestById(
+            @Parameter(required = true, description = "견적서 삭제요청 고유번호")
             @PathVariable long quotationDeleteRequestId) {
         ResponseFindQuotationDeleteRequest responseQuotationDeleteRequest =
                 deleteService.findQuotationDeleteRequestById(quotationDeleteRequestId);
@@ -108,8 +122,13 @@ public class DeleteController {
         return ResponseEntity.status(HttpStatus.OK).body(responseQuotationDeleteRequest);
     }
 
-    @PatchMapping("/quotation/process")
+    @PatchMapping("/quotation/permission")
+    @Operation(summary = "영업기회 삭제요청 처리", description = "영업기회 삭제요청을 처리합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력 값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseQuotationDeleteRequestProcess> processQuotationDeleteRequest(
+            @Parameter(required = true, description = "견적서 삭제처리 요청")
             @RequestBody RequestQuotationDeleteRequestProcess requestQuotationDeleteRequestProcess) {
         ResponseQuotationDeleteRequestProcess responseQuotationDeleteRequestProcess
                 = deleteService.processQuotationDeleteRequest(requestQuotationDeleteRequestProcess);
@@ -118,18 +137,30 @@ public class DeleteController {
     }
 
     @GetMapping("/account")
+    @Operation(summary = "거래처 삭제요청 전체조회", description = "거래처 삭제요청을 전부 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public List<ResponseAccountDeleteRequestList> findAccountDeleteRequestList() {
         return deleteService.findAccountDeleteList();
     }
 
     @GetMapping("/account/{accountDeleteRequestId}")
+    @Operation(summary = "거래처 삭제요청 단일조회", description = "거래처 삭제요청을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseFindAccoundDeleteRequest findAccoundDeleteRequestById(
+            @Parameter(required = true, description = "거래처 삭제요청 고유번호")
             @PathVariable long accountDeleteRequestId) {
         return deleteService.findAccountDeleteRequestById(accountDeleteRequestId);
     }
 
     @PatchMapping("/account/process")
+    @Operation(summary = "거래처 삭제요청 처리", description = "거래처 삭제요청을 처리합니다..")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseAccountDeleteRequestProcess> accountDeleteRequestProcess(
+            @Parameter(required = true, description = "거래처 삭제처리 요청")
             @RequestBody RequestAccountDeleteRequestProcess requestAccountDeleteRequestProcess) {
         ResponseAccountDeleteRequestProcess responseAccountDeleteRequestProcess
                 = deleteService.accountDeleteRequestProcess(requestAccountDeleteRequestProcess);
@@ -138,17 +169,29 @@ public class DeleteController {
     }
 
     @GetMapping("/order")
+    @Operation(summary = "수주 삭제요청 전체조회", description = "수주 삭제요청을 전부 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public List<ResponseOrderDeleteRequestList> orderDeleteRequestList() {
         return deleteService.findOrderDeleteRequestList();
     }
 
     @GetMapping("/order/{orderDeleteRequestId}")
-    private ResponseFindOrderDeleteRequest findOrderDeleteRequestById(@PathVariable long orderDeleteRequestId) {
+    @Operation(summary = "수주 삭제요청 단일조회", description = "수주 삭제요청을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    private ResponseFindOrderDeleteRequest findOrderDeleteRequestById(
+            @Parameter(required = true, description = "거래처 삭제요청 고유번호")
+            @PathVariable long orderDeleteRequestId) {
         return deleteService.findOrderDeleteRequestById(orderDeleteRequestId);
     }
 
     @PatchMapping("/order/process")
+    @Operation(summary = "수주 삭제요청 처리", description = "수주 삭제요청을 처리합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     private ResponseEntity<ResponseOrderDeleteRequestProcess> processOrderDeleteRequest(
+            @Parameter(required = true, description = "수주 삭제처리 요청")
             @RequestBody RequestOrderDeleteRequestProcess requestOrderDeleteRequestProcess) {
         ResponseOrderDeleteRequestProcess orderDeleteRequestProcess =
                 deleteService.processOrderDeleteRequest(requestOrderDeleteRequestProcess);
