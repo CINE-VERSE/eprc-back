@@ -71,6 +71,17 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(currentDate);
         order.setShipmentStatus(shipmentStatus);
 
+        if (requestOrder.getDownPayment() != 0 || requestOrder.getBalance() != 0) {
+            long totalPrice = requestOrder.getDownPayment() + requestOrder.getBalance()
+                    + requestOrder.getProgressPayment();
+            order.setOrderTotalPrice(totalPrice);
+            order.setTotalBalance(totalPrice);
+        }
+
+        if (requestOrder.getDownPayment() != 0 || requestOrder.getBalance() != 0) {
+            order.setTotalBalance(order.getOrderTotalPrice());
+        }
+
         orderRepository.save(order);
 
         Transaction transaction = transactionRepository.findById(order.getTransaction().getTransactionId())
