@@ -38,17 +38,28 @@ public class AccessServiceImpl implements AccessService {
     @Transactional
     public ResponseAccessRequestDTO requestAccess(RequestAccessRequestDTO requestAccess) {
 
-        AccessRequest accessRequest = mapper.map(requestAccess, AccessRequest.class);
 
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String registDate = dateFormat.format(date);
 
+        AccessRequest accessRequest = new AccessRequest();
         accessRequest.setAccessRequestDate(registDate);
         accessRequest.setAccessRequestStatus("N");
-        accessRequestRepository.save(accessRequest);
+        accessRequest.setEmployee(requestAccess.getEmployee());
 
-        return mapper.map(accessRequest, ResponseAccessRequestDTO.class);
+        for (int i = 0; i < requestAccess.getAccessRight().size(); i++) {
+            accessRequest.setAccessRight(requestAccess.getAccessRight().get(i));
+            accessRequestRepository.save(accessRequest);
+        }
+        ResponseAccessRequestDTO responseAccessRequest = new ResponseAccessRequestDTO();
+        responseAccessRequest.setAccessRequestDate(accessRequest.getAccessRequestDate());
+        responseAccessRequest.setAccessRequestStatus(accessRequest.getAccessRequestStatus());
+        responseAccessRequest.setEmployee(accessRequest.getEmployee());
+
+        responseAccessRequest.setAccessRight(requestAccess.getAccessRight());
+
+        return responseAccessRequest;
     }
 
     @Override

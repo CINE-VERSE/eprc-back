@@ -6,9 +6,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class RequestAccessRequestDTO {
-    private AccessRight accessRight;
+    private List<AccessRight> accessRight;
     private Employee employee;
 }

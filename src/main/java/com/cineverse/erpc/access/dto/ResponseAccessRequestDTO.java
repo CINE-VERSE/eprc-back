@@ -5,11 +5,13 @@ import com.cineverse.erpc.employee.aggregate.Employee;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ResponseAccessRequestDTO {
     private long accessRequestId;
     private String accessRequestDate;
     private String accessRequestStatus;
-    private AccessRight accessRight;
+    private List<AccessRight> accessRight;
     private Employee employee;
 }
