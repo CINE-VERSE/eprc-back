@@ -19,19 +19,19 @@ public class SalesServiceImpl implements SalesService {
 
     @Override
     public Long calculateIndividualSales(long employeeId) {
-        List<Order> orders = orderRepository.findByEmployeeEmployeeIdAndDownPaymentIsNotNull(employeeId);
+        List<Order> orders = orderRepository.findByEmployeeEmployeeIdAndDepositDateIsNotNull(employeeId);
         return orders.stream().mapToLong(Order::getOrderTotalPrice).sum();
     }
 
     @Override
     public Long calculateTeamSales(int teamCodeId) {
-        List<Order> orders = orderRepository.findByEmployeeTeamCodeTeamCodeIdAndDownPaymentIsNotNull(teamCodeId);
+        List<Order> orders = orderRepository.findByEmployeeTeamCodeTeamCodeIdAndDepositDateIsNotNull(teamCodeId);
         return orders.stream().mapToLong(Order::getOrderTotalPrice).sum();
     }
 
     @Override
     public Long calculateTotalSales() {
-        List<Order> orders = orderRepository.findByDownPaymentIsNotNull();
+        List<Order> orders = orderRepository.findByDepositDateIsNotNull();
         return orders.stream().mapToLong(Order::getOrderTotalPrice).sum();
     }
 }
