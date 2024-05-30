@@ -54,13 +54,13 @@ public class Order {
     private long totalBalance;
 
     @Column(name = "down_payment")
-    private long downPayment;
+    private Long downPayment;
 
     @Column(name = "progress_payment")
-    private long progressPayment;
+    private Long progressPayment;
 
     @Column(name = "balance")
-    private long balance;
+    private Long balance;
 
     @Column(name = "arrive_date")
     private String arriveDate;

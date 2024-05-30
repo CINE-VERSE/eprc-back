@@ -74,9 +74,33 @@ public class OrderExcelController {
         }
 
         row.createCell(6).setCellValue(order.getOrderTotalPrice());
-        row.createCell(7).setCellValue(order.getDownPayment());
-        row.createCell(8).setCellValue(order.getProgressPayment());
-        row.createCell(9).setCellValue(order.getBalance());
+
+//        row.createCell(7).setCellValue(order.getDownPayment());
+//        row.createCell(8).setCellValue(order.getProgressPayment());
+//        row.createCell(9).setCellValue(order.getBalance());
+
+
+        Cell downPaymentCell = row.createCell(7);
+        if (order.getDownPayment() != null) {
+            downPaymentCell.setCellValue(order.getDownPayment());
+        } else {
+            downPaymentCell.setCellValue("");
+        }
+
+        Cell progressPaymentCell = row.createCell(8);
+        if (order.getProgressPayment() != null) {
+            progressPaymentCell.setCellValue(order.getProgressPayment());
+        } else {
+            progressPaymentCell.setCellValue("");
+        }
+
+        Cell balanceCell = row.createCell(9);
+        if (order.getBalance() != null) {
+            balanceCell.setCellValue(order.getBalance());
+        } else {
+            balanceCell.setCellValue("");
+        }
+
         row.createCell(10).setCellValue(order.getOrderDueDate());
         row.createCell(11).setCellValue(order.getContactDate());
         row.createCell(12).setCellValue(order.getReleaseDate());
@@ -96,4 +120,13 @@ public class OrderExcelController {
         wb.write(response.getOutputStream());
         wb.close();
     }
+
+//    private void setCellWithNullCheck(Row row, int cellIndex, Long value) {
+//        Cell cell = row.createCell(cellIndex);
+//        if (value != null) {
+//            cell.setCellValue(value);
+//        } else {
+//            cell.setCellValue(" ");  // Handle how you want to represent null
+//        }
+//    }
 }
