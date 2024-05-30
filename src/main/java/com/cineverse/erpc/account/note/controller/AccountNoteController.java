@@ -5,6 +5,9 @@ import com.cineverse.erpc.account.note.dto.ResponseDeleteAccountNote;
 import com.cineverse.erpc.account.note.dto.ResponseFindAllAccountNotesDTO;
 import com.cineverse.erpc.account.note.dto.ResponseAccountNoteRegistDTO;
 import com.cineverse.erpc.account.note.service.AccountNoteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,12 @@ public class AccountNoteController {
     }
 
     @PostMapping("/regist")
+    @Operation(summary = "거래처 참고사항 등록", description = "거래처 참고사항을 등록합니다")
+    @ApiResponse(responseCode = "201", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseAccountNoteRegistDTO> registAccountNote(
+            @Parameter(required = true, description = "거래처 참고사항 등록 요청")
             @RequestBody RequestAccountNoteRegistDTO requestAccountNote) {
 
         accountNoteService.registAccountNote(requestAccountNote);
@@ -41,7 +49,12 @@ public class AccountNoteController {
     }
 
     @GetMapping("/{accountId}")
-    public List<ResponseFindAllAccountNotesDTO> findAllAccountNotes(@PathVariable long accountId) {
+    @Operation(summary = "거래처 참고사항 조회", description = "거래처 참고사항을 조회합니다")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public List<ResponseFindAllAccountNotesDTO> findAllAccountNotes(
+            @Parameter(required = true, description = "거래처 고유번호")
+            @PathVariable long accountId) {
         List<ResponseFindAllAccountNotesDTO> accountNotes =
                 accountNoteService.findAllAccountNotes(accountId);
 
@@ -49,7 +62,12 @@ public class AccountNoteController {
     }
 
     @PatchMapping("/delete/{accountNoteId}")
-    public ResponseDeleteAccountNote deleteAccountNote(@PathVariable long accountNoteId) {
+    @Operation(summary = "거래처 참고사항 삭제", description = "거래처 참고사항을 삭제합니다")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public ResponseDeleteAccountNote deleteAccountNote(
+            @Parameter(required = true, description = "거래처 참고사항 고유번호")
+            @PathVariable long accountNoteId) {
 
         return accountNoteService.deleteAccountNote(accountNoteId);
     }
