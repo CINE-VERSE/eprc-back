@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestModifyOrder {
+    private long orderRegistrationId;
     private String contactDate;
     private String estimatedDeliveryDate;
     private long orderTotalPrice;

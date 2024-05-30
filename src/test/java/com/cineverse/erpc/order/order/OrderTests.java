@@ -189,6 +189,7 @@ public class OrderTests {
         orderProducts.add(orderProduct);
 
         RequestModifyOrder order = RequestModifyOrder.builder()
+                .orderRegistrationId(2)
                 .orderTotalPrice(100000)
                 .orderNote("비고란")
                 .contactDate("2024-05-23")
@@ -197,7 +198,7 @@ public class OrderTests {
                 .orderProduct(orderProducts)
                 .build();
 
-        ResponseModifyOrder testOrder = orderService.modifyOrder(2, order, files);
+        ResponseModifyOrder testOrder = orderService.modifyOrder(order, files);
 
         assertThat(testOrder.getOrderTotalPrice()).isEqualTo(order.getOrderTotalPrice());
         assertThat(testOrder.getOrderNote()).isEqualTo(order.getOrderNote());

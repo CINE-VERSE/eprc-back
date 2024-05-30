@@ -5,6 +5,9 @@ import com.cineverse.erpc.order.note.dto.ResponseFindOrderNotesDTO;
 import com.cineverse.erpc.order.note.dto.RequestRegistOrderNoteDTO;
 import com.cineverse.erpc.order.note.dto.ResponseRegistOrderNoteDTO;
 import com.cineverse.erpc.order.note.service.OrderNoteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,12 @@ public class OrderNoteController {
     }
 
     @PostMapping("/regist")
+    @Operation(summary = "수주 참고사항 등록", description = "수주 참고사항을 등록합니다.")
+    @ApiResponse(responseCode = "201", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseRegistOrderNoteDTO> registOrderNote(
+            @Parameter(required = true, description = "수주 참고사항 등록 요청")
             @RequestBody RequestRegistOrderNoteDTO registNote) {
 
         orderNoteService.registOrderNote(registNote);
@@ -42,12 +50,22 @@ public class OrderNoteController {
     }
 
     @GetMapping("/{orderId}")
-    public List<ResponseFindOrderNotesDTO> findNotesByOrderId(@PathVariable long orderId) {
+    @Operation(summary = "수주 참고사항 조회", description = "수주 참고사항을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public List<ResponseFindOrderNotesDTO> findNotesByOrderId(
+            @Parameter(required = true, description = "수주 고유번호")
+            @PathVariable long orderId) {
         return orderNoteService.findNotesByOrderId(orderId);
     }
 
     @PatchMapping("/delete/{orderNoteId}")
-    public ResponseDeleteOrderNote deleteOrderNote(@PathVariable long orderNoteId) {
+    @Operation(summary = "수주 참고사항 삭제", description = "수주 참고사항을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public ResponseDeleteOrderNote deleteOrderNote(
+            @Parameter(required = true, description = "수주 참고사항 고유번호")
+            @PathVariable long orderNoteId) {
         return orderNoteService.deleteOrderNote(orderNoteId);
     }
 }

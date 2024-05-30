@@ -5,6 +5,9 @@ import com.cineverse.erpc.quotation.note.dto.ResponseDeleteQuotationNote;
 import com.cineverse.erpc.quotation.note.dto.ResponseFindAllQuotationNotesDTO;
 import com.cineverse.erpc.quotation.note.dto.ResponseRegistQuotationNoteDTO;
 import com.cineverse.erpc.quotation.note.service.QuotationNoteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,12 @@ public class QuotationNoteController {
     }
 
     @PostMapping("/regist")
+    @Operation(summary = "견적서 참고사항 등록", description = "견적서 참고사항을 등록합니다.")
+    @ApiResponse(responseCode = "201", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseRegistQuotationNoteDTO> registQuotationNote(
+            @Parameter(required = true, description = "견적서 참고사항 등록 요청")
             @RequestBody RequestRegistQuotationNoteDTO requestQuotationNote) {
 
         quotationNoteService.registQuotationNote(requestQuotationNote);
@@ -40,7 +48,12 @@ public class QuotationNoteController {
     }
 
     @GetMapping("/{quotationId}")
-    public List<ResponseFindAllQuotationNotesDTO> findAllQuotationNotes(@PathVariable long quotationId) {
+    @Operation(summary = "견적서 참고사항 조회", description = "견적서 참고사항을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
+    public List<ResponseFindAllQuotationNotesDTO> findAllQuotationNotes(
+            @Parameter(required = true, description = "견적서 고유번호")
+            @PathVariable long quotationId) {
         List<ResponseFindAllQuotationNotesDTO> quotationNotes =
                 quotationNoteService.findAllQuotationNotes(quotationId);
 
@@ -48,6 +61,7 @@ public class QuotationNoteController {
     }
 
     @PatchMapping("/delete/{quotationNoteId}")
+
     public ResponseEntity<ResponseDeleteQuotationNote> deleteQuotationNote(@PathVariable long quotationNoteId) {
 
         ResponseDeleteQuotationNote responseDeleteQuotationNote =

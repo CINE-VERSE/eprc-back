@@ -125,12 +125,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public ResponseModifyOrder modifyOrder(long orderId, RequestModifyOrder requestModifyOrder, MultipartFile[] files) {
-        Order order = orderRepository.findById(orderId)
+    public ResponseModifyOrder modifyOrder(RequestModifyOrder requestModifyOrder, MultipartFile[] files) {
+        Order order = orderRepository.findById(requestModifyOrder.getOrderRegistrationId())
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 수주 입니다."));
 
         if(!requestModifyOrder.getOrderProduct().isEmpty()) {
-            orderProductRepository.deleteAllByOrderOrderRegistrationId(orderId);
+            orderProductRepository.deleteAllByOrderOrderRegistrationId(requestModifyOrder.getOrderRegistrationId());
             for (OrderProduct product : requestModifyOrder.getOrderProduct()) {
                 OrderProduct orderProduct = modifyOrderProduct(order, product);
             }
