@@ -6,7 +6,7 @@ permissions:
 
 on:
   push:
-    branches: ["main", "develop", "githubaction"]
+    branches: ["main"]
   pull_request:
     types: [opened, reopened, synchronize]
 

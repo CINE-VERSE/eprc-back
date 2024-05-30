@@ -118,6 +118,7 @@ public class AccountTests {
         accountStatus.setAccountStatus("수정 거래처");
 
         AccountDTO accountDTO = AccountDTO.builder()
+                .accountId(1)
                 .accountName("수정 거래처명")
                 .corporationNum("123-99-93931")
                 .accountRepresentative("수정 거래처 대표명")
@@ -130,7 +131,7 @@ public class AccountTests {
                 .accountStatus(accountStatus)
                 .build();
 
-        AccountDTO account = accountService.modifyAccount(accountDTO, 1);
+        AccountDTO account = accountService.modifyAccount(accountDTO);
 
         assertThat(account.getAccountName()).isEqualTo("수정 거래처명");
         assertThat(account.getCorporationNum()).isEqualTo("123-99-93931");

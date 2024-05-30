@@ -11,7 +11,7 @@ public interface AccountService {
 
     ResponseRegistAccountDTO registAccount(AccountDTO accountDTO);
 
-    AccountDTO modifyAccount(AccountDTO accountDTO, long accountId);
+    AccountDTO modifyAccount(AccountDTO accountDTO);
 
     ResponseDeleteAccount deleteAccount(RequestDeleteAccount requestDeleteAccount);
 }

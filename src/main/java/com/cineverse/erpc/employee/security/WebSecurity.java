@@ -72,6 +72,9 @@ public class WebSecurity {
                 .requestMatchers(new AntPathRequestMatcher("/excel/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/issue/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
+                .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**",
+                        "/api-docs", "/api-docs/**", "/v3/api-docs/**")
+                .permitAll()
                 .anyRequest().authenticated()  // 나머지 요청은 인증 필요
         ).authenticationManager(authenticationManager);
 

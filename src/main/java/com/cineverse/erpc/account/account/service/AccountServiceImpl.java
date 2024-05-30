@@ -98,8 +98,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountDTO modifyAccount(AccountDTO accountDTO, long accountId) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+    public AccountDTO modifyAccount(AccountDTO accountDTO) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountDTO.getAccountId());
 
         if (optionalAccount.isEmpty())
             throw new UsernameNotFoundException("존재하지 않는 거래처입니다.");

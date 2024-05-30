@@ -18,6 +18,8 @@ import com.cineverse.erpc.contract.dto.ContractDeleteRequestDTO;
 import com.cineverse.erpc.order.order.dto.ResponseDeleteOrder;
 import com.cineverse.erpc.salesopp.opportunity.aggregate.SalesOppDeleteRequest;
 import com.cineverse.erpc.salesopp.opportunity.dto.SalesOppDeleteRequestDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -39,6 +41,9 @@ public class DeleteController {
 
     /* 영업기회 삭제 요청 전체조회 */
     @GetMapping("/sales_opp")
+    @Operation(summary = "영업기회 삭제요청 전체조회", description = "영업기회 삭제요청을 전부 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신 오류")
     public List<SalesOppDeleteRequest> findSalesOppDeleteRequest() {
         List<SalesOppDeleteRequest> salesOppDeleteRequestList = deleteService.findSalesOppDeleteRequestList();
 
