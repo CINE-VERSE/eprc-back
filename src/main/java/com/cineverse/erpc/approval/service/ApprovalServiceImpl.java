@@ -10,6 +10,10 @@ import com.cineverse.erpc.approval.dto.shipment.*;
 import com.cineverse.erpc.approval.repo.ContractApprovalRepository;
 import com.cineverse.erpc.approval.repo.QuotationApprovalRepository;
 import com.cineverse.erpc.approval.repo.ShipmentApprovalRepository;
+import com.cineverse.erpc.order.order.aggregate.Order;
+import com.cineverse.erpc.order.order.repo.OrderRepository;
+import com.cineverse.erpc.shipment.aggregate.Shipment;
+import com.cineverse.erpc.shipment.repo.ShipmentRepository;
 import com.cineverse.erpc.smtp.dto.RequestContractApprovalMail;
 import com.cineverse.erpc.smtp.dto.RequestQuotationApprovalMail;
 import com.cineverse.erpc.smtp.dto.RequestShipmentApprovalMail;
@@ -30,6 +34,8 @@ public class ApprovalServiceImpl implements ApprovalService{
     private ContractApprovalRepository contractApprovalRepository;
     private QuotationApprovalRepository quotationApprovalRepository;
     private ShipmentApprovalRepository shipmentApprovalRepository;
+    private ShipmentRepository shipmentRepository;
+    private OrderRepository orderRepository;
     private EmailService emailService;
 
     @Autowired
@@ -37,11 +43,15 @@ public class ApprovalServiceImpl implements ApprovalService{
                                ContractApprovalRepository contractApprovalRepository,
                                QuotationApprovalRepository quotationApprovalRepository,
                                ShipmentApprovalRepository shipmentApprovalRepository,
+                               ShipmentRepository shipmentRepository,
+                               OrderRepository orderRepository,
                                EmailService emailService) {
         this.mapper = mapper;
         this.contractApprovalRepository = contractApprovalRepository;
         this.quotationApprovalRepository = quotationApprovalRepository;
         this.shipmentApprovalRepository = shipmentApprovalRepository;
+        this.shipmentRepository = shipmentRepository;
+        this.orderRepository = orderRepository;
         this.emailService = emailService;
     }
 
@@ -218,6 +228,9 @@ public class ApprovalServiceImpl implements ApprovalService{
                 .findById(requestApproval.getShipmentApprovalId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 결재입니다."));
 
+        Order order = orderRepository.findById(shipmentApproval.getOrder().getOrderRegistrationId())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 수주 입니다."));
+
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String registDate = dateFormat.format(date);
@@ -225,6 +238,14 @@ public class ApprovalServiceImpl implements ApprovalService{
         shipmentApproval.setApprovalDate(registDate);
         shipmentApproval.setApprovalStatus(requestApproval.getApprovalStatus());
         shipmentApproval.setApprovalContent(requestApproval.getApprovalContent());
+
+        if(shipmentApproval.getApprovalStatus().getApprovalStatusId() == 2) {
+            Shipment shipment = new Shipment();
+            shipment.setOrderDueDate(order.getOrderDueDate());
+            shipment.setTransactionCode(order.getTransaction().getTransactionCode());
+            shipment.setShipmentStatus(order.getShipmentStatus());
+            shipmentRepository.save(shipment);
+        }
 
         shipmentApprovalRepository.save(shipmentApproval);
 

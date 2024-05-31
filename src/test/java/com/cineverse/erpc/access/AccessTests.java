@@ -44,14 +44,17 @@ public class AccessTests {
     public void successRegistAccessRequestTest() {
         Employee employee = employeeRepository.findById(Long.valueOf(1))
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사원입니다."));
+        List<AccessRight> accessRights = new ArrayList<>();
+
         AccessRight accessRight = new AccessRight();
         accessRight.setAccessId(1);
         accessRight.setAccessRight("테스트 권한");
 
+        accessRights.add(accessRight);
 
         RequestAccessRequestDTO requestAccess = RequestAccessRequestDTO.builder()
                 .employee(employee)
-                .accessRight(accessRight)
+                .accessRight(accessRights)
                 .build();
 
         ResponseAccessRequestDTO responseAccessRequest = accessService.requestAccess(requestAccess);
