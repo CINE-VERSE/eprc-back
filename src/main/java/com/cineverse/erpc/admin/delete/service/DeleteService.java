@@ -26,15 +26,13 @@ public interface DeleteService {
 
     SalesOppDeleteRequestDTO findSalesOppDeleteRequestById(long salesOppDeleteRequestId);
 
-    SalesOppDeleteRequest changeOppDeleteRequestStatus(long salesOppDeleteRequestId,
-                                                       SalesOppDeleteRequestDTO deleteOpp);
+    SalesOppDeleteRequest oppDeleteRequestProcess(SalesOppDeleteRequest deleteOppRequest);
 
     List<ContractDeleteRequest> findContractDeleteRequestList();
 
     ContractDeleteRequestDTO findContractDeleteRequestById(long contractDeleteRequestId);
 
-    ContractDeleteRequest changeContractDeleteRequestStatus(ContractDeleteRequestDTO deleteContractDTO,
-                                                            long contractDeleteRequestId);
+    ContractDeleteRequest contractDeleteRequestProcess(ContractDeleteRequest deleteContract);
 
     List<ResponseQuotationDeleteRequestList> findQuotationDeleteRequestList();
 
@@ -53,4 +51,5 @@ public interface DeleteService {
     ResponseFindOrderDeleteRequest findOrderDeleteRequestById(long orderDeleteRequestId);
 
     ResponseOrderDeleteRequestProcess processOrderDeleteRequest(RequestOrderDeleteRequestProcess requestOrderDeleteRequestProcess);
+
 }

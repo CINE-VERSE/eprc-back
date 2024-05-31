@@ -66,11 +66,10 @@ public class DeleteController {
     }
 
     /* 영업기회 삭제 요청처리 */
-    @PatchMapping("/sales_opp/permission/{salesOppDeleteRequestId}")
-    public ResponseEntity<SalesOppDeleteRequest> deleteSalesOpp(@RequestBody SalesOppDeleteRequestDTO deleteOppDTO,
-                                                                @PathVariable long salesOppDeleteRequestId) {
-        SalesOppDeleteRequest updatedOppRequest =
-                deleteService.changeOppDeleteRequestStatus(salesOppDeleteRequestId, deleteOppDTO);
+    @PatchMapping("/sales_opp/process")
+    public ResponseEntity<SalesOppDeleteRequest> deleteSalesOpp(@RequestBody SalesOppDeleteRequest deleteOppRequest) {
+        SalesOppDeleteRequest updatedOppRequest = deleteService.oppDeleteRequestProcess(deleteOppRequest);
+
         return ResponseEntity.ok(updatedOppRequest);
     }
 
@@ -92,11 +91,9 @@ public class DeleteController {
     }
 
     /* 계약서 삭제 요청 처리 */
-    @PatchMapping("/contract/permission/{contractDeleteRequestId}")
-    public ResponseEntity<ContractDeleteRequest> deleteContract(@RequestBody ContractDeleteRequestDTO deleteContractDTO,
-                                                                @PathVariable long contractDeleteRequestId) {
-        ContractDeleteRequest updatedContractRequest =
-                deleteService.changeContractDeleteRequestStatus(deleteContractDTO, contractDeleteRequestId);
+    @PatchMapping("/contract/process")
+    public ResponseEntity<ContractDeleteRequest> deleteContract(@RequestBody ContractDeleteRequest deleteContract) {
+        ContractDeleteRequest updatedContractRequest = deleteService.contractDeleteRequestProcess(deleteContract);
 
         return ResponseEntity.ok(updatedContractRequest);
     }
