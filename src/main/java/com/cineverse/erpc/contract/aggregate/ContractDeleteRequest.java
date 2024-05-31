@@ -2,11 +2,15 @@ package com.cineverse.erpc.contract.aggregate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
+@Builder
 @Table(name = "tbl_contract_delete_request")
 public class ContractDeleteRequest {
 
