@@ -97,12 +97,6 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        Shipment shipment = new Shipment();
-        shipment.setOrderDueDate(order.getOrderDueDate());
-        shipment.setTransactionCode(transaction.getTransactionCode());
-        shipment.setShipmentStatus(shipmentStatus);
-        shipmentRepository.save(shipment);
-
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return mapper.map(order, ResponseRegistOrderDTO.class);
     }
