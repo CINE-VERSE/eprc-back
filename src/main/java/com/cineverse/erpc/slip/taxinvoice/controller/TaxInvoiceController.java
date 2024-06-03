@@ -29,28 +29,25 @@ public class TaxInvoiceController {
     }
 
     @PostMapping(path = "/regist", consumes = {"multipart/form-data;charset=UTF-8"})
-    @Operation(summary = "세금계산서 요청 등록", description = "새로운 세금계산서 요청을 등록합니다.")
+    @Operation(summary = "세금계산서 요청", description = "새로운 세금계산서를 요청합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "등록 성공"),
+            @ApiResponse(responseCode = "201", description = "요청 성공"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<TaxInvoiceRequestDTO> registTaxInvoiceRequest(
-            @Parameter(description = "세금계산서 요청 JSON 데이터", required = true)
-            @RequestPart("taxInvoiceRequest") String taxInvoiceJson,
-            @Parameter(description = "첨부 파일들")
-            @RequestPart(value = "files", required = false) MultipartFile[] files)
+            @Parameter(description = "세금계산서 요청 데이터", required = true) @RequestPart("taxInvoiceRequest") String taxInvoiceJson,
+            @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files)
             throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         TaxInvoiceRequestDTO newTaxInvoice = objectMapper.readValue(taxInvoiceJson, TaxInvoiceRequestDTO.class);
-
         taxInvoiceService.registTaxInvoiceRequest(newTaxInvoice, files);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTaxInvoice);
     }
 
     @GetMapping("")
-    @Operation(summary = "요청된 세금계산서 전체 조회", description = "등록된 모든 세금계산서 요청을 조회합니다.")
+    @Operation(summary = "요청 세금계산서 전체 조회", description = "모든 요청된 세금계산서를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
@@ -60,10 +57,10 @@ public class TaxInvoiceController {
     }
 
     @GetMapping("/{taxInvoiceRequestId}")
-    @Operation(summary = "요청된 세금계산서 단일 조회", description = "특정 ID를 통해 단일 세금계산서 요청을 조회합니다.")
+    @Operation(summary = "요청 세금계산서 단일 조회", description = "특정 세금계산서 요청을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
-            @ApiResponse(responseCode = "404", description = "요청 ID를 찾을 수 없음"),
+            @ApiResponse(responseCode = "404", description = "세금계산서 요청을 찾을 수 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public TaxInvoiceRequestDTO findTaxInvoiceRequestById(
