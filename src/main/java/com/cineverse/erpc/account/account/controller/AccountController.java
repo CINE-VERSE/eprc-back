@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
 
-    private ModelMapper modelMapper;
-    private AccountService accountService;
+    private final ModelMapper modelMapper;
+    private final AccountService accountService;
 
     @Autowired
     public AccountController(ModelMapper modelMapper, AccountService accountService) {
@@ -76,7 +76,7 @@ public class AccountController {
     @ApiResponse(responseCode = "403", description = "입력값 불일치")
     @ApiResponse(responseCode = "500", description = "통신 오류")
     public ResponseEntity<ResponseRegistAccountDTO> modifyAccount(
-            @Parameter(required = true, description = "거래처 수정 오류")
+            @Parameter(required = true, description = "거래처 수정 요청")
             @RequestBody RequestRegistAccountDTO account) {
         AccountDTO accountDTO = modelMapper.map(account, AccountDTO.class);
 
