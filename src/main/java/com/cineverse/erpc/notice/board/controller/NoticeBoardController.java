@@ -28,6 +28,7 @@ public class NoticeBoardController {
         this.noticeBoardService = noticeBoardService;
     }
 
+    /* 공지사항 게시글 작성 */
     @PostMapping(path = "/regist", consumes = {"multipart/form-data;charset=UTF-8"})
     @Operation(summary = "공지사항 게시글 작성", description = "새로운 공지사항 게시글을 작성합니다.")
     @ApiResponses(value = {
@@ -36,8 +37,7 @@ public class NoticeBoardController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<NoticeBoardDTO> registNotice(
-            @Parameter(description = "공지사항 게시글 JSON 데이터", required = true)
-            @RequestPart("noticeBoard") String noticeJson,
+            @Parameter(description = "공지사항 게시글 JSON 데이터", required = true) @RequestPart("noticeBoard") String noticeJson,
             @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files)
             throws JsonProcessingException {
 
@@ -47,6 +47,7 @@ public class NoticeBoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newNotice);
     }
 
+    /* 공지사항 게시글 수정 */
     @PatchMapping(path = "/modify/{noticeId}", consumes = {"multipart/form-data;charset=UTF-8"})
     @Operation(summary = "공지사항 게시글 수정", description = "기존 공지사항 게시글을 수정합니다.")
     @ApiResponses(value = {
@@ -55,11 +56,9 @@ public class NoticeBoardController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<NoticeBoard> modifyNotice(
-            @Parameter(description = "수정할 공지사항 게시글 JSON 데이터", required = true)
-            @RequestPart("notice") String noticeJson,
+            @Parameter(description = "수정할 공지사항 게시글 JSON 데이터", required = true) @RequestPart("notice") String noticeJson,
             @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files,
-            @Parameter(description = "공지사항 게시글 ID", required = true)
-            @PathVariable long noticeId) throws JsonProcessingException {
+            @Parameter(description = "공지사항 게시글 ID", required = true) @PathVariable long noticeId) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         NoticeBoardDTO notice = objectMapper.readValue(noticeJson, NoticeBoardDTO.class);
@@ -67,6 +66,7 @@ public class NoticeBoardController {
         return ResponseEntity.ok().build();
     }
 
+    /* 공지사항 게시글 삭제 */
     @PatchMapping("/delete/{noticeId}")
     @Operation(summary = "공지사항 게시글 삭제", description = "기존 공지사항 게시글을 삭제합니다.")
     @ApiResponses(value = {
@@ -79,6 +79,7 @@ public class NoticeBoardController {
         return ResponseEntity.ok(noticeBoardService.deleteNotice(noticeId));
     }
 
+    /* 공지사항 전체 조회 */
     @GetMapping("")
     @Operation(summary = "공지사항 전체 조회", description = "모든 공지사항 게시글을 조회합니다.")
     @ApiResponses(value = {
@@ -89,6 +90,7 @@ public class NoticeBoardController {
         return noticeBoardService.findNoticeList();
     }
 
+    /* 공지사항 단일 조회 */
     @GetMapping("/{noticeId}")
     @Operation(summary = "공지사항 단일 조회", description = "특정 공지사항 게시글을 조회합니다.")
     @ApiResponses(value = {

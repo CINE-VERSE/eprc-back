@@ -27,16 +27,14 @@ public class TaxInvoiceIssueController {
     }
 
     @PatchMapping("/modify")
-    @Operation(summary = "세금계산서 발급 처리", description = "요청 온 세금계산서를 발급 처리합니다.")
+    @Operation(summary = "세금계산서 발행 처리", description = "세금계산서 요청 건을 처리합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "처리 성공"),
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<TaxInvoiceIssueDTO> modifyTaxInvoiceIssue(
-            @Parameter(description = "처리할 세금계산서 발행 정보", required = true)
-            @RequestBody TaxInvoiceIssue taxInvoiceIssue) {
-
+    private ResponseEntity<TaxInvoiceIssueDTO> modifyTaxInvoiceIssue(
+            @Parameter(description = "처리할 세금계산서 정보", required = true) @RequestBody TaxInvoiceIssue taxInvoiceIssue) {
         TaxInvoiceIssueDTO issueDTO = taxInvoiceIssueService.modifyIssue(taxInvoiceIssue);
         return ResponseEntity.status(HttpStatus.OK).body(issueDTO);
     }

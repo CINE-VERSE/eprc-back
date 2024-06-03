@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,6 @@ public class NoticeCommentController {
         this.noticeCommentService = noticeCommentService;
     }
 
-    /* 공지사항 댓글 작성 */
     @PostMapping("/regist")
     @Operation(summary = "공지사항 댓글 작성", description = "새로운 공지사항 댓글을 작성합니다.")
     @ApiResponses(value = {
@@ -35,13 +33,11 @@ public class NoticeCommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<NoticeCommentDTO> registNoticeComment(
-            @Parameter(description = "공지사항 댓글 데이터", required = true)
-            @RequestBody NoticeCommentDTO noticeCommentDTO) {
+            @Parameter(description = "공지사항 댓글 데이터", required = true) @RequestBody NoticeCommentDTO noticeCommentDTO) {
         noticeCommentService.registNoticeComment(noticeCommentDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    /* 공지사항 댓글 삭제 */
     @PatchMapping("/delete/{noticeCommentId}")
     @Operation(summary = "공지사항 댓글 삭제", description = "기존 공지사항 댓글을 삭제합니다.")
     @ApiResponses(value = {
@@ -54,7 +50,6 @@ public class NoticeCommentController {
         return ResponseEntity.ok(noticeCommentService.deleteNoticeComment(noticeCommentId));
     }
 
-    /* 공지사항 댓글 전체 조회 */
     @GetMapping("")
     @Operation(summary = "공지사항 댓글 전체 조회", description = "모든 공지사항 댓글을 조회합니다.")
     @ApiResponses(value = {
