@@ -150,7 +150,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           application_name: erpc-backend
-          environment_name: Erpc-backend-env
+          environment_name: Erpc-backend-env-1
           
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
