@@ -7,14 +7,16 @@ import com.cineverse.erpc.contract.dto.ContractDeleteRequestDTO;
 import com.cineverse.erpc.contract.service.ContractService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -28,70 +30,101 @@ public class ContractController {
         this.contractService = contractService;
     }
 
-    /* 계약서 작성 */
     @PostMapping(path = "/regist", consumes = {"multipart/form-data;charset=UTF-8"})
-    public ResponseEntity<ContractDTO> registContract(@RequestPart("contract") String contractJson,
-                                                      @RequestPart(value = "files", required = false) MultipartFile[] files)
+    @Operation(summary = "계약서 등록", description = "새로운 계약서를 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "등록 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<ContractDTO> registContract(
+            @Parameter(description = "계약서 JSON 데이터", required = true)
+            @RequestPart("contract") String contractJson,
+            @Parameter(description = "첨부 파일들")
+            @RequestPart(value = "files", required = false) MultipartFile[] files)
             throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-
         ContractDTO newContract = objectMapper.readValue(contractJson, ContractDTO.class);
-
         contractService.registContract(newContract, files);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(newContract);
     }
 
-    /* 계약서 수정 */
     @PatchMapping(path = "/modify/{contractId}", consumes = {"multipart/form-data;charset=UTF-8"})
-    public ResponseEntity<Contract> modifyContract(@RequestPart("contract") String contractJson,
-                                                   @RequestPart(value = "files", required = false) MultipartFile[] files,
-                                                   @PathVariable Long contractId) throws JsonProcessingException {
+    @Operation(summary = "계약서 수정", description = "기존 계약서를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<Contract> modifyContract(
+            @Parameter(description = "수정할 계약서 JSON 데이터", required = true)
+            @RequestPart("contract") String contractJson,
+            @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files,
+            @Parameter(description = "계약서 ID", required = true)
+            @PathVariable Long contractId) throws JsonProcessingException {
 
-       ObjectMapper objectMapper = new ObjectMapper();
-       ContractDTO contract = objectMapper.readValue(contractJson, ContractDTO.class);
-
-       contractService.modifyContract(contractId, contract, files);
-
-       return ResponseEntity.ok().build();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ContractDTO contract = objectMapper.readValue(contractJson, ContractDTO.class);
+        contractService.modifyContract(contractId, contract, files);
+        return ResponseEntity.ok().build();
     }
 
-    /* 계약서 삭제 요청 */
     @PostMapping("/delete")
-    public ResponseEntity<ContractDeleteRequestDTO> deleteContract(@RequestBody ContractDeleteRequestDTO deleteContract) {
+    @Operation(summary = "계약서 삭제 요청", description = "계약서 삭제 요청을 보냅니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "삭제 요청 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<ContractDeleteRequestDTO> deleteContract(
+            @Parameter(description = "계약서 삭제 요청 데이터", required = true)
+            @RequestBody ContractDeleteRequestDTO deleteContract) {
         contractService.requestDeleteContract(deleteContract);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(deleteContract);
     }
 
-    /* 계약서 전체 조회 */
     @GetMapping("")
+    @Operation(summary = "전체 계약서 조회", description = "등록된 모든 계약서를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     public List<Contract> findContractList() {
-        List<Contract> contractList = contractService.findContractList();
-
-        return contractList;
+        return contractService.findContractList();
     }
 
-    /* 계약서 단일 조회  */
     @GetMapping("/{contractId}")
-    public ContractDTO findContractById(@PathVariable Long contractId) {
-        ContractDTO contract = contractService.findContractById(contractId);
-
-        return contract;
+    @Operation(summary = "단일 계약서 조회", description = "특정 계약서를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "404", description = "계약서를 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ContractDTO findContractById(
+            @Parameter(description = "계약서 ID", required = true) @PathVariable Long contractId) {
+        return contractService.findContractById(contractId);
     }
 
-    /* 계약서 상품 전체 조회 */
     @GetMapping("/products")
+    @Operation(summary = "계약서 상품 전체 조회", description = "모든 계약서 상품을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     public List<ContractProduct> findContractProductList() {
-        List<ContractProduct> productList = contractService.findContractProductList();
-
-        return productList;
+        return contractService.findContractProductList();
     }
 
-    /* 계약서 코드로 계약서 조회 */
     @GetMapping("/code")
-    public ContractDTO findContractByCode(@RequestParam String contractCode) {
+    @Operation(summary = "계약서 코드로 계약서 조회", description = "특정 계약서 코드를 통해 계약서를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "404", description = "계약서를 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ContractDTO findContractByCode(
+            @Parameter(description = "계약서 코드", required = true) @RequestParam String contractCode) {
         return contractService.findContractByContractCode(contractCode);
     }
 }
