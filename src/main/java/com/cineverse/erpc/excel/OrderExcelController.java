@@ -4,6 +4,10 @@ import com.cineverse.erpc.contract.dto.ContractProductDTO;
 import com.cineverse.erpc.order.order.aggregate.OrderProduct;
 import com.cineverse.erpc.order.order.dto.OrderDTO;
 import com.cineverse.erpc.order.order.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -27,7 +31,15 @@ public class OrderExcelController {
     }
 
     @GetMapping("/order/{orderRegistrationId}")
-    public void orderDownload(@PathVariable long orderRegistrationId, HttpServletResponse response) throws IOException {
+    @Operation(summary = "주문 엑셀 다운로드", description = "지정된 주문 ID의 엑셀 파일을 다운로드합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "다운로드 성공"),
+            @ApiResponse(responseCode = "404", description = "주문을 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public void orderDownload(
+            @Parameter(description = "주문 등록 ID", required = true) @PathVariable long orderRegistrationId,
+            HttpServletResponse response) throws IOException {
 
         OrderDTO order = orderService.findOrderById(orderRegistrationId);
 
@@ -75,11 +87,6 @@ public class OrderExcelController {
 
         row.createCell(6).setCellValue(order.getOrderTotalPrice());
 
-//        row.createCell(7).setCellValue(order.getDownPayment());
-//        row.createCell(8).setCellValue(order.getProgressPayment());
-//        row.createCell(9).setCellValue(order.getBalance());
-
-
         Cell downPaymentCell = row.createCell(7);
         if (order.getDownPayment() != null) {
             downPaymentCell.setCellValue(order.getDownPayment());
@@ -120,13 +127,4 @@ public class OrderExcelController {
         wb.write(response.getOutputStream());
         wb.close();
     }
-
-//    private void setCellWithNullCheck(Row row, int cellIndex, Long value) {
-//        Cell cell = row.createCell(cellIndex);
-//        if (value != null) {
-//            cell.setCellValue(value);
-//        } else {
-//            cell.setCellValue(" ");  // Handle how you want to represent null
-//        }
-//    }
 }

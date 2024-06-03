@@ -3,6 +3,10 @@ package com.cineverse.erpc.excel;
 import com.cineverse.erpc.contract.dto.ContractDTO;
 import com.cineverse.erpc.contract.dto.ContractProductDTO;
 import com.cineverse.erpc.contract.service.ContractService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,15 @@ public class ContractExcelController {
     }
 
     @GetMapping("contract/{contractId}")
-    public void contractDownload(@PathVariable long contractId, HttpServletResponse response) throws IOException {
+    @Operation(summary = "계약서 엑셀 다운로드", description = "지정된 계약서 ID의 엑셀 파일을 다운로드합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "다운로드 성공"),
+            @ApiResponse(responseCode = "404", description = "계약서를 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public void contractDownload(
+            @Parameter(description = "계약서 ID", required = true) @PathVariable long contractId,
+            HttpServletResponse response) throws IOException {
         ContractDTO contract = contractService.findContractById(contractId);
 
         Workbook wb = new XSSFWorkbook();

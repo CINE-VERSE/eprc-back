@@ -3,6 +3,10 @@ package com.cineverse.erpc.excel;
 import com.cineverse.erpc.quotation.quotation.aggregate.Quotation;
 import com.cineverse.erpc.quotation.quotation.aggregate.QuotationProduct;
 import com.cineverse.erpc.quotation.quotation.service.QuotationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -26,7 +30,15 @@ public class QuotationExcelController {
     }
 
     @GetMapping("quotation/{quotationId}")
-    public void quotationDownload(@PathVariable long quotationId, HttpServletResponse response) throws IOException {
+    @Operation(summary = "견적서 엑셀 다운로드", description = "지정된 견적서 ID의 엑셀 파일을 다운로드합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "다운로드 성공"),
+            @ApiResponse(responseCode = "404", description = "견적서를 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public void quotationDownload(
+            @Parameter(description = "견적서 ID", required = true) @PathVariable long quotationId,
+            HttpServletResponse response) throws IOException {
 
         Quotation quotation = quotationService.findQuotationById(quotationId);
 
