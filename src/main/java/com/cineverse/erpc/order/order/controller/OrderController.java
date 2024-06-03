@@ -24,8 +24,8 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
-    private ModelMapper mapper;
-    private OrderService orderService;
+    private final ModelMapper mapper;
+    private final OrderService orderService;
 
     @Autowired
     public OrderController(ModelMapper mapper, OrderService orderService) {
