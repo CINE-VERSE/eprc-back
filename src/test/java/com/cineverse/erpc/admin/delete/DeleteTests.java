@@ -115,16 +115,16 @@ public class DeleteTests {
     @Transactional
     @DisplayName("영업기회 삭제처리 테스트")
     public void deleteSalesOpp() {
-        SalesOpp salesOpp = salesOppRepository.findById(3L)
+        SalesOpp salesOpp = salesOppRepository.findById(1L)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 영업기회입니다."));
 
-        SalesOppDeleteRequestDTO oppDeleteRequest = SalesOppDeleteRequestDTO.builder()
-                .salesOppDeleteRequestId(4)
+        SalesOppDeleteRequest deleteOppRequest = SalesOppDeleteRequest.builder()
+                .salesOppDeleteRequestId(1)
                 .salesOpp(salesOpp)
                 .build();
 
         SalesOppDeleteRequest deletedRequest =
-                deleteService.changeOppDeleteRequestStatus(4, oppDeleteRequest);
+                deleteService.oppDeleteRequestProcess(deleteOppRequest);
 
         assertThat(deletedRequest.getSalesOppDeleteRequestStatus()).isEqualTo('Y');
         assertThat(salesOpp.getOppDeleteDate()).isNotNull();
@@ -164,20 +164,19 @@ public class DeleteTests {
     @Transactional
     @DisplayName("계약서 삭제처리 테스트")
     public void deleteContract() {
-        Contract contract = contractRepository.findById(17L)
+        Contract contract = contractRepository.findById(1L)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 계약서입니다."));
 
-        ContractDeleteRequestDTO contractDeleteRequest = ContractDeleteRequestDTO.builder()
+        ContractDeleteRequest contractDeleteRequest = ContractDeleteRequest.builder()
                 .contractDeleteRequestId(1)
                 .contract(contract)
                 .build();
 
         ContractDeleteRequest deletedRequest
-                = deleteService.changeContractDeleteRequestStatus(contractDeleteRequest, 1);
+                = deleteService.contractDeleteRequestProcess(contractDeleteRequest);
 
         assertThat(deletedRequest.getContractDeleteRequestStatus()).isEqualTo('Y');
         assertThat(contract.getContractDeleteDate()).isNotNull();
-
     }
 
     @Test

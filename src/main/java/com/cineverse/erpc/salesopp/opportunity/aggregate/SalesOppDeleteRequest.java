@@ -11,8 +11,8 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name="tbl_sales_opportunity_delete_request")
 @Builder
+@Table(name="tbl_sales_opportunity_delete_request")
 public class SalesOppDeleteRequest {
     @Id
     @Column(name = "sales_opp_delete_request_id")
