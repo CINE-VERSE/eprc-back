@@ -92,7 +92,7 @@ public class WebSecurity {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-        configuration.setAllowedOrigins(Arrays.asList("http://erpc-frontend-env.eba-d36ceqsu.ap-northeast-2.elasticbeanstalk.com/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://www.erpc.site"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("token", "userId"));  // 노출할 헤더 설정
