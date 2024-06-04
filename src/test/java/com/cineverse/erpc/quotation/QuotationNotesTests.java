@@ -1,4 +1,4 @@
-package com.cineverse.erpc.quotation.note;
+package com.cineverse.erpc.quotation;
 
 import com.cineverse.erpc.employee.aggregate.Employee;
 import com.cineverse.erpc.employee.repo.EmployeeRepository;
@@ -70,7 +70,7 @@ public class QuotationNotesTests {
     @DisplayName("견적서 참고사항 전체조회 성공 테스트")
     public void successFindQuotationNotesTest() {
         List<ResponseFindAllQuotationNotesDTO> quotationNotes =
-                quotationNoteService.findAllQuotationNotes(Long.valueOf(2));
+                quotationNoteService.findAllQuotationNotes(Long.valueOf(5));
 
         assertThat(quotationNotes).isNotEmpty();
     }

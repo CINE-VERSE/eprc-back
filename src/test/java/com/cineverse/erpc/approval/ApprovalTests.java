@@ -29,25 +29,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class ApprovalTests {
     private final ApprovalService approvalService;
-    private final ContractApprovalRepository contractApprovalRepository;
-    private final QuotationApprovalRepository quotationApprovalRepository;
-    private final ShipmentApprovalRepository shipmentApprovalRepository;
     private final QuotationRepository quotationRepository;
     private final ContractRepository contractRepository;
     private final OrderRepository orderRepository;
 
     @Autowired
     public ApprovalTests(ApprovalService approvalService,
-                         ContractApprovalRepository contractApprovalRepository,
-                         QuotationApprovalRepository quotationApprovalRepository,
-                         ShipmentApprovalRepository shipmentApprovalRepository,
                          QuotationRepository quotationRepository,
                          ContractRepository contractRepository,
                          OrderRepository orderRepository) {
         this.approvalService = approvalService;
-        this.contractApprovalRepository = contractApprovalRepository;
-        this.quotationApprovalRepository = quotationApprovalRepository;
-        this.shipmentApprovalRepository = shipmentApprovalRepository;
         this.quotationRepository = quotationRepository;
         this.contractRepository = contractRepository;
         this.orderRepository = orderRepository;

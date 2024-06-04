@@ -1,4 +1,4 @@
-package com.cineverse.erpc.quotation.quotation;
+package com.cineverse.erpc.quotation;
 
 import com.cineverse.erpc.account.account.aggregate.Account;
 import com.cineverse.erpc.account.account.repository.AccountRepository;
@@ -184,11 +184,9 @@ public class QuotationTests {
             assertThat(actualProduct.getProduct().getProductId())
                     .isEqualTo(expectedProduct.getProduct().getProductId());
         }
-
         assertThat(testQuotation.getTransaction()).isNotNull();
         assertThat(testQuotation.getQuotationDate()).isNotNull();
         assertThat(testQuotation.getQuotationCode()).isNotNull();
-
     }
 
     @Test

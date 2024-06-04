@@ -16,16 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/access")
 public class AccessController {
-    private AccessService accessService;
-    private ModelMapper mapper;
+    private final AccessService accessService;
 
     @Autowired
-    public AccessController(AccessService accessService, ModelMapper mapper) {
+    public AccessController(AccessService accessService) {
         this.accessService = accessService;
-        this.mapper = mapper;
     }
 
-    /* 권한 신청 */
     @PostMapping("/access_request")
     @Operation(summary = "사원 권한 신청", description = "접근 권한을 신청합니다.")
     @ApiResponse(responseCode = "201", description = "성공")
@@ -37,7 +34,7 @@ public class AccessController {
         ResponseAccessRequestDTO responseAccess = accessService.requestAccess(requestAccess);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAccess);
     }
-    /* 권한신청 조회 */
+
     @GetMapping("{accessRequestId}")
     @Operation(summary = "권한신청 단일조회", description = "권한 신청을 단일조회 합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
@@ -59,7 +56,7 @@ public class AccessController {
 
         return accessService.findAllAccessRequest();
     }
-    /* 보유권한 조회 */
+
     @GetMapping("find_access/{employeeId}")
     @Operation(summary = "보유권한 조회", description = "사원이 보유한 권한을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
@@ -70,7 +67,7 @@ public class AccessController {
         return accessService.findEmployeesAccess(employeeId);
     }
 
-    /* 권한신청 처리 */
+
     @PostMapping("/add_access")
     @Operation(summary = "권한신청 처리", description = "사원이 신청한 권한을 등록합니다.")
     @ApiResponse(responseCode = "201", description = "성공")
@@ -83,5 +80,4 @@ public class AccessController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAddAccess);
     }
-
 }

@@ -1,11 +1,10 @@
-package com.cineverse.erpc.account.account;
+package com.cineverse.erpc.account;
 
 import com.cineverse.erpc.account.account.aggregate.Account;
 import com.cineverse.erpc.account.account.aggregate.AccountStatus;
 import com.cineverse.erpc.account.account.dto.*;
 import com.cineverse.erpc.account.account.repository.AccountRepository;
 import com.cineverse.erpc.account.account.service.AccountService;
-import com.cineverse.erpc.admin.delete.dto.account.RequestAccountDeleteRequestProcess;
 import com.cineverse.erpc.employee.aggregate.Employee;
 import com.cineverse.erpc.employee.repo.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
