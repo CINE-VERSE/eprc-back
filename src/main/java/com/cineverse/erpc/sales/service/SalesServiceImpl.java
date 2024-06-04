@@ -34,4 +34,16 @@ public class SalesServiceImpl implements SalesService {
         List<Order> orders = orderRepository.findByDepositDateIsNotNull();
         return orders.stream().mapToLong(Order::getOrderTotalPrice).sum();
     }
+
+    public Long calculateTeamMonthlySales(int teamCodeId, int month) {
+        List<Order> orders = orderRepository.findByEmployeeTeamCodeTeamCodeIdAndDepositDateIsNotNull(teamCodeId);
+        return orders.stream()
+                .filter(order -> {
+                    String depositDate = order.getDepositDate(); // Assuming format is "yyyy-MM-dd"
+                    int orderMonth = Integer.parseInt(depositDate.substring(5, 7));
+                    return orderMonth == month;
+                })
+                .mapToLong(Order::getOrderTotalPrice)
+                .sum();
+    }
 }

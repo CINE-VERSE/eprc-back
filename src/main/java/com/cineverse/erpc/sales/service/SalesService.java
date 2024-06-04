@@ -7,4 +7,6 @@ public interface SalesService {
     Long calculateTeamSales(int teamCodeId);
 
     Long calculateTotalSales();
+
+    Long calculateTeamMonthlySales(int teamCodeId, int month);
 }

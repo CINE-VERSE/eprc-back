@@ -41,18 +41,34 @@ public class SalesController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/team/{teamCodeId}")
-    @Operation(summary = "팀별 매출 조회", description = "특정 팀의 매출을 조회합니다.")
+//    @GetMapping("/team/{teamCodeId}")
+//    @Operation(summary = "팀별 매출 조회", description = "특정 팀의 매출을 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "조회 성공"),
+//            @ApiResponse(responseCode = "404", description = "팀을 찾을 수 없음"),
+//            @ApiResponse(responseCode = "500", description = "서버 오류")
+//    })
+//    public ResponseEntity<Map<String, Long>> getTeamSales(
+//            @Parameter(description = "팀 코드 ID", required = true) @PathVariable int teamCodeId) {
+//        Long sales = salesService.calculateTeamSales(teamCodeId);
+//        Map<String, Long> response = new HashMap<>();
+//        response.put("teamSales", sales);
+//        return ResponseEntity.ok(response);
+//    }
+
+    @GetMapping("/team/{teamCodeId}/{month}")
+    @Operation(summary = "팀별 월별 매출 조회", description = "특정 팀의 특정 월 매출을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "404", description = "팀을 찾을 수 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<Map<String, Long>> getTeamSales(
+    public ResponseEntity<Map<String, Long>> getTeamMonthlySales(
+            @Parameter(description = "월", required = true) @PathVariable int month,
             @Parameter(description = "팀 코드 ID", required = true) @PathVariable int teamCodeId) {
-        Long sales = salesService.calculateTeamSales(teamCodeId);
+        Long sales = salesService.calculateTeamMonthlySales(teamCodeId, month);
         Map<String, Long> response = new HashMap<>();
-        response.put("teamSales", sales);
+        response.put("teamMonthlySales", sales);
         return ResponseEntity.ok(response);
     }
 
