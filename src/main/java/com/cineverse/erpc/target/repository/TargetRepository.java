@@ -9,7 +9,7 @@ public interface TargetRepository extends JpaRepository<Target, Long> {
 
     List<Target> findByEmployeeEmployeeId(Long employeeId);
 
-    List<Target> findByTeamTeamCodeId(Integer teamCodeId);
+    List<Target> findByTeamTeamCodeIdAndEmployeeEmployeeIdIsNull(Integer teamCodeId);
 
     List<Target> findByEmployeeIsNullAndTeamIsNull();
 

@@ -25,7 +25,7 @@ public class TargetServiceImpl implements TargetService{
 
     @Override
     public List<Target> getTargetsByTeam(Integer teamCodeId) {
-        return targetRepository.findByTeamTeamCodeId(teamCodeId);
+        return targetRepository.findByTeamTeamCodeIdAndEmployeeEmployeeIdIsNull(teamCodeId);
     }
 
     @Override
