@@ -21,7 +21,7 @@ public class CorsConfig {
                 "https://www.erpc.site", "https://erpc.site",
                 "http://erpc-frontend-env.eba-d36ceqsu.ap-northeast-2.elasticbeanstalk.com/"));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie", "Cookie"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
