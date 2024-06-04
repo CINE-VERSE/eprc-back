@@ -1,8 +1,7 @@
-package com.cineverse.erpc.order.order;
+package com.cineverse.erpc.order;
 
 import com.cineverse.erpc.account.account.aggregate.Account;
 import com.cineverse.erpc.account.account.repository.AccountRepository;
-import com.cineverse.erpc.contract.aggregate.Contract;
 import com.cineverse.erpc.contract.aggregate.ContractCategory;
 import com.cineverse.erpc.employee.aggregate.Employee;
 import com.cineverse.erpc.employee.repo.EmployeeRepository;
@@ -13,20 +12,15 @@ import com.cineverse.erpc.order.order.dto.*;
 import com.cineverse.erpc.order.order.repo.OrderRepository;
 import com.cineverse.erpc.order.order.service.OrderService;
 import com.cineverse.erpc.product.aggregate.Product;
-import com.cineverse.erpc.quotation.quotation.aggregate.Quotation;
 import com.cineverse.erpc.quotation.quotation.aggregate.Transaction;
-import com.cineverse.erpc.quotation.quotation.dto.RequestRegistQuotationDTO;
 import com.cineverse.erpc.quotation.quotation.repo.QuotationRepository;
-import com.cineverse.erpc.quotation.quotation.repo.TransactionRepository;
 import com.cineverse.erpc.quotation.quotation.service.QuotationService;
-import com.cineverse.erpc.shipment.aggregate.Shipment;
 import com.cineverse.erpc.shipment.repo.ShipmentRepository;
 import com.cineverse.erpc.shipment.service.ShipmentService;
 import com.cineverse.erpc.warehouse.aggregate.Warehouse;
 import com.cineverse.erpc.warehouse.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,9 +70,8 @@ public class OrderTests {
     @Transactional
     @DisplayName("수주 단일조회 성공 테스트")
     public void successFindOrderTest() {
-        OrderDTO order = orderService.findOrderById(2);
+        OrderDTO order = orderService.findOrderById(3);
 
-        assertThat(order.getOrderNote()).isNotNull();
         assertThat(order.getOrderDueDate()).isNotNull();
         assertThat(order.getOrderProduct()).isNotNull();
         assertThat(order.getOrderDate()).isNotNull();

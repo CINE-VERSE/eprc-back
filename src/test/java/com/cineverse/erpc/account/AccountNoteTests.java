@@ -1,4 +1,4 @@
-package com.cineverse.erpc.account.note;
+package com.cineverse.erpc.account;
 
 import com.cineverse.erpc.account.account.aggregate.Account;
 import com.cineverse.erpc.account.account.repository.AccountRepository;
@@ -24,9 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class AccountNoteTests {
+
     private final AccountNoteService accountNoteService;
-
-
     private final AccountNoteRepository accountNoteRepository;
     private final EmployeeRepository employeeRepository;
     private final AccountRepository accountRepository;

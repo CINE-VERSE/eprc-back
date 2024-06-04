@@ -58,7 +58,7 @@ public class QuotationServiceImpl implements QuotationService{
         String registCode = codeFormat.format(date);
 
         String transactionCode;
-        List<Transaction> transactionList = findTrasactionLists();
+        List<Transaction> transactionList = findTransactionLists();
 
         do {
             int random = (int) (Math.random() * 999) + 1;
@@ -143,7 +143,7 @@ public class QuotationServiceImpl implements QuotationService{
         return false;
     }
 
-    private List<Transaction> findTrasactionLists() {
+    private List<Transaction> findTransactionLists() {
         List<Transaction> transactions = transactionRepository.findAll();
 
         return transactions.stream().map(transaction -> mapper

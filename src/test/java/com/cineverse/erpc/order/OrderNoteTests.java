@@ -1,4 +1,4 @@
-package com.cineverse.erpc.order.note;
+package com.cineverse.erpc.order;
 
 import com.cineverse.erpc.employee.aggregate.Employee;
 import com.cineverse.erpc.employee.repo.EmployeeRepository;
@@ -69,7 +69,7 @@ public class OrderNoteTests {
     @Transactional
     @DisplayName("수주 참고사항 전체조회 성공 테스트")
     public void successFindOrderNotesTest() {
-        List<ResponseFindOrderNotesDTO> orderNotes = orderNoteService.findNotesByOrderId(Long.valueOf(2));
+        List<ResponseFindOrderNotesDTO> orderNotes = orderNoteService.findNotesByOrderId(Long.valueOf(1));
 
         assertThat(orderNotes).isNotEmpty();
     }

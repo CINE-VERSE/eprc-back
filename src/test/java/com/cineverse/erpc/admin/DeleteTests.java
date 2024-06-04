@@ -1,8 +1,7 @@
-package com.cineverse.erpc.admin.delete;
+package com.cineverse.erpc.admin;
 
 import com.cineverse.erpc.account.account.aggregate.AccountDeleteRequest;
 import com.cineverse.erpc.account.account.repository.AccountDeleteRequestRepository;
-import com.cineverse.erpc.account.account.repository.AccountRepository;
 import com.cineverse.erpc.admin.delete.dto.account.RequestAccountDeleteRequestProcess;
 import com.cineverse.erpc.admin.delete.dto.account.ResponseAccountDeleteRequestList;
 import com.cineverse.erpc.admin.delete.dto.account.ResponseAccountDeleteRequestProcess;
@@ -46,7 +45,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class DeleteTests {
     private final DeleteService deleteService;
-
     private final SalesOppDeleteRequestRepository salesOppDeleteRequestRepository;
     private final SalesOppRepository salesOppRepository;
     private final ContractDeleteRequestRepository contractDeleteRequestRepository;
