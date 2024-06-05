@@ -1,5 +1,6 @@
 package com.cineverse.erpc.file.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.cineverse.erpc.contract.aggregate.Contract;
@@ -27,7 +28,8 @@ public class FileUploadService {
 
     private static String bucketName = "erpc-bucket";
 
-    private final AmazonS3Client amazonS3Client;
+//    private final AmazonS3Client amazonS3Client;
+    private final AmazonS3 amazonS3Client;
     private final NoticeFileRepository noticeFileRepository;
     private final QuotationFileRepository quotationFileRepository;
     private final ContractFileRepository contractFileRepository;
@@ -60,7 +62,7 @@ public class FileUploadService {
             noticeFileRepository.save(noticeFile);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to upload file to S3", e);
         }
 
         return noticeFile.getAccessUrl();
@@ -91,7 +93,7 @@ public class FileUploadService {
             quotationFileRepository.save(quotationFile);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to upload file to S3", e);
         }
 
         return quotationFile.getAccessUrl();
@@ -122,7 +124,7 @@ public class FileUploadService {
             contractFileRepository.save(contractFile);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to upload file to S3", e);
         }
 
         return contractFile.getAccessUrl();
