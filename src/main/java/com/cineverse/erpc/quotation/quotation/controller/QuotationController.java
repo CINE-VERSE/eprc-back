@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("/quotation")
 public class QuotationController {
 
@@ -45,12 +47,34 @@ public class QuotationController {
             @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files)
             throws JsonProcessingException {
 
+        log.info("Received request to register quotation with data: {}", quotationJson);
+        if (files != null) {
+            log.info("Number of attached files: {}", files.length);
+        } else {
+            log.info("No files attached.");
+        }
+
         ObjectMapper objectMapper = new ObjectMapper();
-        RequestRegistQuotationDTO newQuotation = objectMapper.readValue(quotationJson, RequestRegistQuotationDTO.class);
-        quotationService.registQuotation(newQuotation, files);
+        RequestRegistQuotationDTO newQuotation;
+        try {
+            newQuotation = objectMapper.readValue(quotationJson, RequestRegistQuotationDTO.class);
+            log.info("Parsed quotation JSON data successfully.");
+        } catch (JsonProcessingException e) {
+            log.error("Error parsing quotation JSON data: {}", e.getMessage());
+            throw e;
+        }
+
+        try {
+            quotationService.registQuotation(newQuotation, files);
+            log.info("Quotation registered successfully.");
+        } catch (Exception e) {
+            log.error("Error registering quotation: {}", e.getMessage());
+            throw new RuntimeException("Quotation registration failed.");
+        }
 
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         ResponseRegistQuotationDTO responseRegistQuotation = mapper.map(newQuotation, ResponseRegistQuotationDTO.class);
+        log.info("Mapped RequestRegistQuotationDTO to ResponseRegistQuotationDTO successfully.");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseRegistQuotation);
     }
@@ -64,7 +88,10 @@ public class QuotationController {
     })
     public Quotation findQuotationByQuotationId(
             @Parameter(description = "견적서 ID", required = true) @PathVariable long quotationId) {
-        return quotationService.findQuotationById(quotationId);
+        log.info("Received request to find quotation with ID: {}", quotationId);
+        Quotation quotation = quotationService.findQuotationById(quotationId);
+        log.info("Quotation with ID {} found: {}", quotationId, quotation);
+        return quotation;
     }
 
     @GetMapping()
@@ -74,7 +101,10 @@ public class QuotationController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public List<QuotationDTO> findAllQuotations() {
-        return quotationService.findAllQuotations();
+        log.info("Received request to find all quotations");
+        List<QuotationDTO> quotations = quotationService.findAllQuotations();
+        log.info("Found {} quotations", quotations.size());
+        return quotations;
     }
 
     @PatchMapping(path = "/modify", consumes = {"multipart/form-data;charset=UTF-8"})
@@ -90,11 +120,31 @@ public class QuotationController {
             @Parameter(description = "첨부 파일들") @RequestPart(value = "files", required = false) MultipartFile[] files)
             throws JsonProcessingException {
 
+        log.info("Received request to modify quotation with data: {}", quotationJson);
+        if (files != null) {
+            log.info("Number of attached files: {}", files.length);
+        } else {
+            log.info("No files attached.");
+        }
+
         ObjectMapper objectMapper = new ObjectMapper();
-        RequestModifyQuotationDTO requestModifyQuotationDTO
-                = objectMapper.readValue(quotationJson, RequestModifyQuotationDTO.class);
-        ResponseModifyQuotationDTO responseModifyQuotationDTO
-                = quotationService.modifyQuotation(requestModifyQuotationDTO, files);
+        RequestModifyQuotationDTO requestModifyQuotationDTO;
+        try {
+            requestModifyQuotationDTO = objectMapper.readValue(quotationJson, RequestModifyQuotationDTO.class);
+            log.info("Parsed modification quotation JSON data successfully.");
+        } catch (JsonProcessingException e) {
+            log.error("Error parsing modification quotation JSON data: {}", e.getMessage());
+            throw e;
+        }
+
+        ResponseModifyQuotationDTO responseModifyQuotationDTO;
+        try {
+            responseModifyQuotationDTO = quotationService.modifyQuotation(requestModifyQuotationDTO, files);
+            log.info("Quotation modified successfully.");
+        } catch (Exception e) {
+            log.error("Error modifying quotation: {}", e.getMessage());
+            throw new RuntimeException("Quotation modification failed.");
+        }
 
         return ResponseEntity.ok().body(responseModifyQuotationDTO);
     }
@@ -109,7 +159,15 @@ public class QuotationController {
     public ResponseEntity<ResponseDeleteQuotation> deleteQuotation(
             @Parameter(description = "삭제 요청 데이터", required = true)
             @RequestBody RequestDeleteQuotation requestDeleteQuotation) {
-        ResponseDeleteQuotation responseDeleteQuotation = quotationService.deleteQuotation(requestDeleteQuotation);
+        log.info("Received request to delete quotation with data: {}", requestDeleteQuotation);
+        ResponseDeleteQuotation responseDeleteQuotation;
+        try {
+            responseDeleteQuotation = quotationService.deleteQuotation(requestDeleteQuotation);
+            log.info("Quotation delete request registered successfully.");
+        } catch (Exception e) {
+            log.error("Error registering quotation delete request: {}", e.getMessage());
+            throw new RuntimeException("Quotation delete request failed.");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDeleteQuotation);
     }
 
@@ -122,6 +180,9 @@ public class QuotationController {
     })
     public ResponseQuotationByCode findQuotationByCode(
             @Parameter(description = "견적서 코드", required = true) @RequestParam String quotationCode) {
-        return quotationService.findQuotationByCode(quotationCode);
+        log.info("Received request to find quotation by code: {}", quotationCode);
+        ResponseQuotationByCode quotation = quotationService.findQuotationByCode(quotationCode);
+        log.info("Quotation with code {} found: {}", quotationCode, quotation);
+        return quotation;
     }
 }
