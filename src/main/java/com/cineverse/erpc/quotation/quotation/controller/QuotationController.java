@@ -23,7 +23,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/quotation")
 public class QuotationController {
 
     private final ModelMapper mapper;
@@ -35,7 +34,7 @@ public class QuotationController {
         this.quotationService = quotationService;
     }
 
-    @PostMapping(path = "/regist", consumes = {"multipart/form-data;charset=UTF-8"})
+    @PostMapping(path = "/quotation_regist", consumes = {"multipart/form-data;charset=UTF-8"})
     @Operation(summary = "견적서 등록", description = "새로운 견적서를 등록합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "등록 성공"),
