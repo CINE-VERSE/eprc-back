@@ -80,7 +80,7 @@ public class FileUploadService {
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(multipartFile.getContentType());
-            objectMetadata.setContentLength(multipartFile.getInputStream().available());
+            objectMetadata.setContentLength(multipartFile.getSize());
 
             amazonS3Client.putObject(bucketName, storedName, multipartFile.getInputStream(), objectMetadata);
 
