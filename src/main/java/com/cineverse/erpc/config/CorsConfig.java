@@ -19,7 +19,8 @@ public class CorsConfig {
         config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8080",
                 "http://www.erpc.site", "http://erpc.site",
                 "https://www.erpc.site", "https://erpc.site",
-                "http://erpc-frontend-env.eba-d36ceqsu.ap-northeast-2.elasticbeanstalk.com/"));
+                "http://erpc-frontend-env.eba-d36ceqsu.ap-northeast-2.elasticbeanstalk.com/",
+                "http://localhost:8080"));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie", "Cookie"));

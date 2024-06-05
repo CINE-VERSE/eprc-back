@@ -93,8 +93,7 @@ public class WebSecurity {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-        configuration.setAllowedOrigins(Arrays.asList("http://erpc.site"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://erpc.site"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("token", "userId"));  // 노출할 헤더 설정
@@ -104,5 +103,4 @@ public class WebSecurity {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }
