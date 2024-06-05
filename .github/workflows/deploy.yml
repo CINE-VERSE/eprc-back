@@ -205,6 +205,12 @@ jobs:
               url: jdbc:mariadb://\${RDS_HOSTNAME}:\${RDS_PORT}/\${RDS_DB_NAME}
               username: \${RDS_USERNAME}
               password: \${RDS_PASSWORD}
+              hikari:
+                maxLifetime: 170000  # 170초
+                idleTimeout: 600000  # 10분
+                connectionTimeout: 30000  # 30초
+                minimumIdle: 10  # 최소 유휴 연결 수
+                maximumPoolSize: 50  # 최대 연결 수
           
             servlet:
               multipart:
