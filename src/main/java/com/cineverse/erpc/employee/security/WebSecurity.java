@@ -46,6 +46,7 @@ public class WebSecurity {
         http.csrf((csrf) -> csrf.disable());  // 토큰으로 처리할 예정이기 때문에 필요가 없음
 
         http.cors().and().authorizeHttpRequests((auth) -> auth
+                .requestMatchers(new AntPathRequestMatcher("/health")).permitAll()  // /login 엔드포인트 허용
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()  // /login 엔드포인트 허용
                 .requestMatchers(new AntPathRequestMatcher("/employees/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/notice_board/**")).permitAll()
