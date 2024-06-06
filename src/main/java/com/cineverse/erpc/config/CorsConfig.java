@@ -16,13 +16,14 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("*"));
-//        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedHeaders(Arrays.asList("*"));
-//        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        config.setAllowedMethods(Arrays.asList("*"));
-//        config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie", "Cookie"));
-        config.setExposedHeaders(Arrays.asList("*"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8080",
+                "http://www.erpc.site", "http://erpc.site",
+                "https://www.erpc.site", "https://erpc.site",
+                "http://erpc-frontend-env.eba-d36ceqsu.ap-northeast-2.elasticbeanstalk.com/",
+                "http://localhost:8080"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie", "Cookie"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
