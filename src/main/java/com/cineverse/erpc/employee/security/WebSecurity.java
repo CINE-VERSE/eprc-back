@@ -46,7 +46,6 @@ public class WebSecurity {
         http.csrf((csrf) -> csrf.disable());  // 토큰으로 처리할 예정이기 때문에 필요가 없음
 
         http.cors().and().authorizeHttpRequests((auth) -> auth
-                .requestMatchers(new AntPathRequestMatcher("/health")).permitAll()  // /login 엔드포인트 허용
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()  // /login 엔드포인트 허용
                 .requestMatchers(new AntPathRequestMatcher("/employees/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/notice_board/**")).permitAll()
@@ -73,6 +72,7 @@ public class WebSecurity {
                 .requestMatchers(new AntPathRequestMatcher("/shipment/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/excel/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/issue/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/error/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                 .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**",
                         "/api-docs", "/api-docs/**", "/v3/api-docs/**")
