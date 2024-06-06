@@ -29,7 +29,7 @@ public class ContractExcelController {
         this.contractService = contractService;
     }
 
-    @GetMapping("contract/{contractId}")
+    @GetMapping("/contract/{contractId}")
     @Operation(summary = "계약서 엑셀 다운로드", description = "지정된 계약서 ID의 엑셀 파일을 다운로드합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "다운로드 성공"),

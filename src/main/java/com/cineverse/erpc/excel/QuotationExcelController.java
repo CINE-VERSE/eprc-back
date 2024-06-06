@@ -29,7 +29,7 @@ public class QuotationExcelController {
         this.quotationService = quotationService;
     }
 
-    @GetMapping("quotation/{quotationId}")
+    @GetMapping("/quotation/{quotationId}")
     @Operation(summary = "견적서 엑셀 다운로드", description = "지정된 견적서 ID의 엑셀 파일을 다운로드합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "다운로드 성공"),
