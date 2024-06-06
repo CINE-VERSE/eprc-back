@@ -10,4 +10,6 @@ public interface EmployeeAccessRepository extends JpaRepository<EmployeeAccess, 
     List<EmployeeAccess> findAllByEmployeeEmployeeId(long employeeId);
 
     void deleteByEmployeeEmployeeId(long employeeId);
+
+    List<EmployeeAccess> findAllByEmployeeEmployeeCode(String employeeCode);
 }

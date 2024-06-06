@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("excel")
+@RequestMapping("/excel")
 public class ContractExcelController {
 
     private final ContractService contractService;

@@ -106,5 +106,14 @@ public class AccessServiceImpl implements AccessService {
         ResponseAddAccessDTO responseAddAccess = mapper.map(addAccess, ResponseAddAccessDTO.class);
         return responseAddAccess;
     }
+
+    @Override
+    public List<ResponseFindEmployeesAccessDTO> findEmployeesAccessByEmployeeCode(String employeeCode) {
+        List<EmployeeAccess> employeeAccesses = employeeAccessRepository.findAllByEmployeeEmployeeCode(employeeCode);
+
+        return employeeAccesses.stream().map(employeeAccess -> mapper
+                .map(employeeAccess, ResponseFindEmployeesAccessDTO.class))
+                .collect(Collectors.toList());
+    }
 }
 

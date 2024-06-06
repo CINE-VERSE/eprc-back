@@ -35,7 +35,7 @@ public class AccessController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAccess);
     }
 
-    @GetMapping("{accessRequestId}")
+    @GetMapping("/{accessRequestId}")
     @Operation(summary = "권한신청 단일조회", description = "권한 신청을 단일조회 합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "500", description = "통신오류")
@@ -57,7 +57,7 @@ public class AccessController {
         return accessService.findAllAccessRequest();
     }
 
-    @GetMapping("find_access/{employeeId}")
+    @GetMapping("/find_access/{employeeId}")
     @Operation(summary = "보유권한 조회", description = "사원이 보유한 권한을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "500", description = "통신오류")
@@ -79,5 +79,16 @@ public class AccessController {
        ResponseAddAccessDTO responseAddAccess = accessService.addAccess(addAccess);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAddAccess);
+    }
+
+    @GetMapping("/find_access")
+    @Operation(summary = "사번으로 보유권한 조회", description = "사번으로 사원 보유 권한을 조회합니다")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "403", description = "입력값 불일치")
+    @ApiResponse(responseCode = "500", description = "통신오류")
+    public List<ResponseFindEmployeesAccessDTO> findEmployeesAccessByEmployeeCode(
+            @Parameter(required = true, description = "사번")
+            @RequestParam String employeeCode) {
+        return accessService.findEmployeesAccessByEmployeeCode(employeeCode);
     }
 }

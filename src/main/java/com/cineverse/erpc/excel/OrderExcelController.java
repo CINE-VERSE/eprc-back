@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("excel")
+@RequestMapping("/excel")
 public class OrderExcelController {
 
     private final OrderService orderService;

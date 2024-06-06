@@ -31,14 +31,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/health_check")
-    @Operation(summary = "백엔드 서버 통신 확인", description = "서버와 통신을 확인합니다")
-    @ApiResponse(responseCode = "200", description = "성공")
-    @ApiResponse(responseCode = "500", description = "통신 오류")
-    public String status() {
-        return "I'm OK";
-    }
-
     @PostMapping("/regist")
     @Operation(summary = "사원 등록", description = "사원을 등록합니다")
     @ApiResponse(responseCode = "201", description = "성공")
@@ -100,5 +92,7 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseModifyEmployee);
     }
+
+
 
 }
