@@ -50,6 +50,9 @@ dependencies {
 	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.3'	// test
 	compileOnly group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'		// test
 
+	implementation 'org.apache.poi:poi:5.2.3'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
 	// 토큰]
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
