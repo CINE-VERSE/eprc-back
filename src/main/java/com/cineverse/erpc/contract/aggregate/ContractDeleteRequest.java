@@ -27,6 +27,5 @@ public class ContractDeleteRequest {
 
     @JoinColumn(name = "contract_id")
     @ManyToOne
-    @JsonIgnore
     private Contract contract;
 }
