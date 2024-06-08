@@ -1,5 +1,6 @@
 package com.cineverse.erpc.sales.controller;
 
+import com.cineverse.erpc.sales.dto.SalesDTO;
 import com.cineverse.erpc.sales.service.SalesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/sales")
@@ -32,9 +31,9 @@ public class SalesController {
             @ApiResponse(responseCode = "404", description = "직원을 찾을 수 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<Map<Integer, Map<String, Long>>> getEmployeeSales(
+    public ResponseEntity<SalesDTO> getEmployeeSales(
             @Parameter(description = "직원 ID", required = true) @PathVariable long employeeId) {
-        Map<Integer, Map<String, Long>> sales = salesService.calculateEmployeeYearlySales(employeeId);
+        SalesDTO sales = salesService.calculateEmployeeYearlySales(employeeId);
         return ResponseEntity.ok(sales);
     }
 
@@ -45,9 +44,9 @@ public class SalesController {
             @ApiResponse(responseCode = "404", description = "팀을 찾을 수 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<Map<Integer, Map<String, Long>>> getTeamYearlySales(
+    public ResponseEntity<SalesDTO> getTeamYearlySales(
             @Parameter(description = "팀 코드 ID", required = true) @PathVariable int teamCodeId) {
-        Map<Integer, Map<String, Long>> sales = salesService.calculateTeamYearlySales(teamCodeId);
+        SalesDTO sales = salesService.calculateTeamYearlySales(teamCodeId);
         return ResponseEntity.ok(sales);
     }
 
@@ -57,8 +56,8 @@ public class SalesController {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<Map<Integer, Map<String, Long>>> getTotalSales() {
-        Map<Integer, Map<String, Long>> sales = salesService.calculateTotalYearlySales();
+    public ResponseEntity<SalesDTO> getTotalSales() {
+        SalesDTO sales = salesService.calculateTotalYearlySales();
         return ResponseEntity.ok(sales);
     }
 }

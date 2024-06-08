@@ -1,6 +1,6 @@
 package com.cineverse.erpc.sales.service;
 
-import java.util.Map;
+import com.cineverse.erpc.sales.dto.SalesDTO;
 
 public interface SalesService {
 
@@ -10,11 +10,11 @@ public interface SalesService {
 
     Long calculateTotalSales();
 
-//    Long calculateTeamMonthlySales(int teamCodeId, int year, int month);
+    Long calculateTeamMonthlySales(int teamCodeId, int year, int month);
 
-    Map<Integer, Map<String, Long>> calculateTeamYearlySales(int teamCodeId);
+    SalesDTO calculateTeamYearlySales(int teamCodeId);
 
-    Map<Integer, Map<String, Long>> calculateEmployeeYearlySales(long employeeId);
+    SalesDTO calculateEmployeeYearlySales(long employeeId);
 
-    Map<Integer, Map<String, Long>> calculateTotalYearlySales();
+    SalesDTO calculateTotalYearlySales();
 }

@@ -2,6 +2,8 @@ package com.cineverse.erpc.sales.dto;
 
 import lombok.*;
 
+import java.util.Map;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -9,7 +11,5 @@ import lombok.*;
 @ToString
 @Builder
 public class SalesDTO {
-    private long employeeSales;
-    private long teamSales;
-    private long totalSales;
+    private Map<Integer, Map<String, Long>> sales;
 }
