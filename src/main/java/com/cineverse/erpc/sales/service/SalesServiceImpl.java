@@ -46,9 +46,9 @@ public class SalesServiceImpl implements SalesService {
         List<Order> orders = orderRepository.findByEmployeeTeamCodeTeamCodeIdAndDepositDateIsNotNull(teamCodeId);
         return orders.stream()
                 .filter(order -> {
-                    String depositDate = order.getDepositDate(); // Assuming format is "yyyy-MM-dd"
-                    int orderYear = Integer.parseInt(depositDate.substring(0, 4));
-                    int orderMonth = Integer.parseInt(depositDate.substring(5, 7));
+                    String orderDate = order.getOrderDate(); // Assuming format is "yyyy-MM-dd"
+                    int orderYear = Integer.parseInt(orderDate.substring(0, 4));
+                    int orderMonth = Integer.parseInt(orderDate.substring(5, 7));
                     return orderYear == year && orderMonth == month;
                 })
                 .mapToLong(Order::getOrderTotalPrice)
@@ -79,7 +79,6 @@ public class SalesServiceImpl implements SalesService {
     private Map<Integer, Map<String, Long>> calculateYearlySales(List<Order> orders) {
         Map<Integer, Map<String, Long>> yearlySales = new LinkedHashMap<>();
 
-        // Initialize the structure for all years and months
         for (int year = START_YEAR; year <= END_YEAR; year++) {
             Map<String, Long> monthsMap = new LinkedHashMap<>();
             for (int i = 1; i <= 12; i++) {
@@ -89,11 +88,10 @@ public class SalesServiceImpl implements SalesService {
             yearlySales.put(year, monthsMap);
         }
 
-        // Populate the sales data
         orders.forEach(order -> {
-            String depositDate = order.getDepositDate(); // Assuming format is "yyyy-MM-dd"
-            int orderYear = Integer.parseInt(depositDate.substring(0, 4));
-            int orderMonth = Integer.parseInt(depositDate.substring(5, 7));
+            String orderDate = order.getOrderDate();
+            int orderYear = Integer.parseInt(orderDate.substring(0, 4));
+            int orderMonth = Integer.parseInt(orderDate.substring(5, 7));
             long orderTotalPrice = order.getOrderTotalPrice();
 
             if (yearlySales.containsKey(orderYear)) {
