@@ -15,4 +15,6 @@ public interface OrderService {
     ResponseModifyOrder modifyOrder(RequestModifyOrder requestModifyOrder, MultipartFile[] files);
 
     ResponseDeleteOrder deleteOrder(RequestDeleteOrder requestDeleteOrder);
+
+    List<ResponseOrderLists> findOrderLists();
 }

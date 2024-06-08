@@ -76,7 +76,7 @@ public class OrderController {
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "500", description = "통신 오류")
     public List<ResponseOrderLists> findAllOrders() {
-        return orderService.findAllOrders();
+        return orderService.findOrderLists();
     }
 
     /* 수정 */

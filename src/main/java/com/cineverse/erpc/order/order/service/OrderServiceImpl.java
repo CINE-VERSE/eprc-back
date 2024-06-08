@@ -128,6 +128,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<ResponseOrderLists> findOrderLists() {
+        List<Order> orders = orderRepository.findAllByOrderDeleteDateIsNull();
+
+        return orders.stream().map(order -> mapper
+                .map(order, ResponseOrderLists.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public ResponseModifyOrder modifyOrder(RequestModifyOrder requestModifyOrder, MultipartFile[] files) {
         Order order = orderRepository.findById(requestModifyOrder.getOrderRegistrationId())

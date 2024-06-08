@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByDepositDateIsNotNull();
 
     Order findByTransaction_TransactionCode(String transactionCode);
+
+    List<Order> findAllByOrderDeleteDateIsNull();
 }

@@ -18,6 +18,7 @@ public class ResponseOrderLists {
     private long orderTotalPrice;
     private String depositDate;
     private String orderDate;
+    private String orderDeleteDate;
     private Account account;
     private Employee employee;
     private Transaction transaction;
