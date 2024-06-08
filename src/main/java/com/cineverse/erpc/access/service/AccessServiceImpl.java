@@ -77,11 +77,23 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public List<ResponseFindAllAccessRequestDTO> findAllAccessRequest() {
-        List<AccessRequest> accessRequests = accessRequestRepository.findAll();
+        List<AccessRequest> accessRequests = accessRequestRepository.findAllByAccessRequestStatus("N");
 
         return accessRequests.stream().map(accessRequest -> mapper
                         .map(accessRequest, ResponseFindAllAccessRequestDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ResponseFindAccessRequestDTO accessProcess(long accessRequestId) {
+        AccessRequest accessRequest = accessRequestRepository.findById(accessRequestId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 권한신청입니다."));
+
+        accessRequest.setAccessRequestStatus("Y");
+
+        accessRequestRepository.save(accessRequest);
+
+        return mapper.map(accessRequest, ResponseFindAccessRequestDTO.class);
     }
 
     @Override

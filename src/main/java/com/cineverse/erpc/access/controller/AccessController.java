@@ -57,6 +57,16 @@ public class AccessController {
         return accessService.findAllAccessRequest();
     }
 
+    @GetMapping("/process")
+    @Operation(summary = "권한신청 상태 변경", description = "권한신청 상태를 변경합니다")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "500", description = "통신오류")
+    public ResponseFindAccessRequestDTO accessProcess(@RequestParam long accessRequestId) {
+
+        return accessService.accessProcess(accessRequestId);
+    }
+
+
     @GetMapping("/find_access/{employeeId}")
     @Operation(summary = "보유권한 조회", description = "사원이 보유한 권한을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
@@ -81,6 +91,7 @@ public class AccessController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAddAccess);
     }
+
 
     @GetMapping("/find_access")
     @Operation(summary = "사번으로 보유권한 조회", description = "사번으로 사원 보유 권한을 조회합니다")

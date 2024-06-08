@@ -16,4 +16,6 @@ public interface AccessService {
     ResponseAddAccessDTO addAccess(RequestAddAccessDTO addAccess);
 
     List<ResponseFindEmployeesAccessDTO> findEmployeesAccessByEmployeeCode(String employeeCode);
+
+    ResponseFindAccessRequestDTO accessProcess(long accessRequestId);
 }
