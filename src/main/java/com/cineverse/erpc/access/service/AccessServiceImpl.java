@@ -6,6 +6,8 @@ import com.cineverse.erpc.access.aggregate.EmployeeAccess;
 import com.cineverse.erpc.access.dto.*;
 import com.cineverse.erpc.access.repo.AccessRequestRepository;
 import com.cineverse.erpc.access.repo.EmployeeAccessRepository;
+import com.cineverse.erpc.employee.aggregate.Employee;
+import com.cineverse.erpc.employee.repo.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,17 @@ public class AccessServiceImpl implements AccessService {
     private ModelMapper mapper;
     private AccessRequestRepository accessRequestRepository;
     private EmployeeAccessRepository employeeAccessRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     public AccessServiceImpl(ModelMapper mapper,
                              AccessRequestRepository accessRequestRepository,
-                             EmployeeAccessRepository employeeAccessRepository) {
+                             EmployeeAccessRepository employeeAccessRepository,
+                             EmployeeRepository employeeRepository) {
         this.mapper = mapper;
         this.accessRequestRepository = accessRequestRepository;
         this.employeeAccessRepository = employeeAccessRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -91,17 +96,20 @@ public class AccessServiceImpl implements AccessService {
     @Override
     @Transactional
     public ResponseAddAccessDTO addAccess(RequestAddAccessDTO addAccess) {
+        Employee employee = employeeRepository.findByEmployeeCode(addAccess.getEmployee().getEmployeeCode());
 
-        employeeAccessRepository.deleteByEmployeeEmployeeId(addAccess.getEmployee().getEmployeeId());
+        employeeAccessRepository.deleteByEmployeeEmployeeId(employee.getEmployeeId());
 
         for (int i = 0; i < addAccess.getAccessRight().size(); i++) {
             EmployeeAccess employeeAccess = new EmployeeAccess();
 
-            employeeAccess.setEmployee(addAccess.getEmployee());
+            employeeAccess.setEmployee(employee);
             employeeAccess.setAccessRight(addAccess.getAccessRight().get(i));
 
             employeeAccessRepository.save(employeeAccess);
         }
+
+        addAccess.setEmployee(employee);
 
         ResponseAddAccessDTO responseAddAccess = mapper.map(addAccess, ResponseAddAccessDTO.class);
         return responseAddAccess;

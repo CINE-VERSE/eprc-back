@@ -76,6 +76,7 @@ public class AccessController {
     public ResponseEntity<ResponseAddAccessDTO> addAccess(
             @Parameter(required = true, description = "권한처리 요청")
             @RequestBody RequestAddAccessDTO addAccess) {
+
        ResponseAddAccessDTO responseAddAccess = accessService.addAccess(addAccess);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAddAccess);
