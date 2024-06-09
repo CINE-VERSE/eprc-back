@@ -48,19 +48,23 @@ public class AccessServiceImpl implements AccessService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String registDate = dateFormat.format(date);
 
-        AccessRequest accessRequest = new AccessRequest();
-        accessRequest.setAccessRequestDate(registDate);
-        accessRequest.setAccessRequestStatus("N");
-        accessRequest.setEmployee(requestAccess.getEmployee());
+//        AccessRequest accessRequest = new AccessRequest();
+//        accessRequest.setAccessRequestDate(registDate);
+//        accessRequest.setAccessRequestStatus("N");
+//        accessRequest.setEmployee(requestAccess.getEmployee());
 
         for (int i = 0; i < requestAccess.getAccessRight().size(); i++) {
+            AccessRequest accessRequest = new AccessRequest();
+            accessRequest.setAccessRequestDate(registDate);
+            accessRequest.setAccessRequestStatus("N");
+            accessRequest.setEmployee(requestAccess.getEmployee());
             accessRequest.setAccessRight(requestAccess.getAccessRight().get(i));
             accessRequestRepository.save(accessRequest);
         }
         ResponseAccessRequestDTO responseAccessRequest = new ResponseAccessRequestDTO();
-        responseAccessRequest.setAccessRequestDate(accessRequest.getAccessRequestDate());
-        responseAccessRequest.setAccessRequestStatus(accessRequest.getAccessRequestStatus());
-        responseAccessRequest.setEmployee(accessRequest.getEmployee());
+        responseAccessRequest.setAccessRequestDate(registDate);
+        responseAccessRequest.setAccessRequestStatus("N");
+        responseAccessRequest.setEmployee(requestAccess.getEmployee());
 
         responseAccessRequest.setAccessRight(requestAccess.getAccessRight());
 
