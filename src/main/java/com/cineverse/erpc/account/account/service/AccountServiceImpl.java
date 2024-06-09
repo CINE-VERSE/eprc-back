@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> findAccountLists() {
-        List<Account> accounts = accountRepository.findAll();
+        List<Account> accounts = accountRepository.findAllByAccountDeleteDateIsNull();
 
         return accounts.stream().map(account -> modelMapper
                         .map(account, AccountDTO.class))

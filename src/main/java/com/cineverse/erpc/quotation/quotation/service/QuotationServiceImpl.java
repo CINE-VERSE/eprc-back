@@ -120,7 +120,7 @@ public class QuotationServiceImpl implements QuotationService{
     }
 
     private List<Quotation> findQuotationLists() {
-        List<Quotation> quotations = quotationRepository.findAll();
+        List<Quotation> quotations = quotationRepository.findAllByQuotationDeleteDateIsNull();
 
         return quotations.stream().map(quotation -> mapper
                         .map(quotation, Quotation.class))

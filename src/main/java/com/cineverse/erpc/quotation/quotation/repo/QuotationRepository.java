@@ -9,4 +9,6 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
     Quotation findByQuotationCode(String quotationCode);
 
     List<Quotation> findAllByOrderByQuotationIdDesc();
+
+    List<Quotation> findAllByQuotationDeleteDateIsNull();
 }
